@@ -4,6 +4,7 @@
 import { useState, useEffect, useCallback, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 
+
 type SearchResult = {
   name: string;
   slug: string;
@@ -18,12 +19,18 @@ export default function Search() {
   const router = useRouter();
 
   // Debounce function remains the same
-  const debounce = (func: Function, delay: number) => {
-    let timeoutId: NodeJS.Timeout;
-    return (...args: any) => {
-      clearTimeout(timeoutId);
+  type FetchFunctionType = (searchQuery: string) => void;
+
+  const debounce = (func: FetchFunctionType, delay: number) => {
+    let timeoutId: NodeJS.Timeout | null = null;
+
+    // The returned function is also explicitly typed to match.
+    return (searchQuery: string) => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
       timeoutId = setTimeout(() => {
-        func(...args);
+        func(searchQuery);
       }, delay);
     };
   };
@@ -85,8 +92,8 @@ export default function Search() {
         <ul className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg">
           {results.length > 0 ? (
             results.map((product) => (
-              <li 
-                key={product.slug} 
+              <li
+                key={product.slug}
                 className="border-b last:border-b-0 cursor-pointer"
                 onClick={() => handleSuggestionClick(product)} // Changed from <Link> to onClick
               >
@@ -100,7 +107,7 @@ export default function Search() {
               </li>
             ))
           ) : (
-            <li className="p-2 text-gray-500">No results found for "{query}".</li>
+            <li className="p-2 text-gray-500">{`No results found for "${query}".`}</li>
           )}
         </ul>
       )}

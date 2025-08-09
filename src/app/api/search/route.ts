@@ -40,8 +40,17 @@ export async function GET(request: Request) {
     // Return a structured response
     return NextResponse.json({ highlightedProduct, otherProducts });
 
-  } catch (error: any) {
-    console.error('Search API error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) { // <-- `error` is of type `unknown`
+    // Check if it's a standard Error object
+    if (error instanceof Error) {
+      console.error('Search API Error:', error.message);
+      // We can safely access .message now
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    } 
+    // Handle cases where a non-Error was thrown
+    else {
+      console.error('An unknown error was thrown in Search API:', error);
+      return NextResponse.json({ error: 'An unexpected server error occurred' }, { status: 500 });
+    }
   }
 }

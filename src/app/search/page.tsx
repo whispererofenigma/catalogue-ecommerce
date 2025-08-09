@@ -50,8 +50,14 @@ export default function SearchPage() {
         setHighlightedProduct(data.highlightedProduct);
         setOtherProducts(data.otherProducts);
 
-      } catch (err: any) {
-        setError(err.message);
+      } catch (err) { // <-- `err` is now of type `unknown` by default
+        // We check if the thrown object is an actual Error
+        if (err instanceof Error) {
+          setError(err.message); // <-- Now it's safe to access .message
+        } else {
+          // Handle cases where a non-Error was thrown
+          setError('An unexpected error occurred');
+        }
       } finally {
         setIsLoading(false);
       }

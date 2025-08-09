@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { supabase } from '@/utils/supabase/client';
 import Image from 'next/image';
 
+
 export const dynamicParams = false;
 
 // Define a type for the dynamic route parameters
@@ -36,7 +37,7 @@ export default async function ProductPage({
   return (
     <div className='p-8 flex flex-wrap gap-4'>
       <div className='flex justify-center w-full md:w-auto md:justify-start'>
-        <img
+        <Image
           src={productImage}
           alt={product.name}
           width={500}

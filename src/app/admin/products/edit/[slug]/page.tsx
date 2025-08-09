@@ -1,10 +1,10 @@
 // app/admin/products/edit/[slug]/page.tsx
 import ProductForm from '@/components/ProductForm';
 import { createClient } from '@/utils/supabase/server';
-import { cookies } from 'next/headers';
+
 
 async function getProduct(slug: string) {
-    const cookieStore = cookies();
+    
     const supabase = await createClient();
 
     const { data, error } = await supabase
