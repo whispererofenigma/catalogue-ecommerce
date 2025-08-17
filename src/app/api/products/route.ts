@@ -1,6 +1,7 @@
 // app/api/products/route.ts
 import { createAdminClient } from '@/utils/supabase/server';
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 
 export async function POST(request: Request) {
   const supabase = await createAdminClient();
@@ -21,5 +22,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
+   
+    
+    // --- 2. ADD REVALIDATION LOGIC ---
+    
+    revalidatePath('/products'); // Rebuilds the main product list
+    revalidatePath('/admin'); // Rebuilds the admin dashboard list
+    
+
   return NextResponse.json(data);
 }
+

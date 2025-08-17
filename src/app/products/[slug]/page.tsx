@@ -1,5 +1,5 @@
 // app/products/[slug]/page.tsx
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { supabase } from '@/utils/supabase/client';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -13,6 +13,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { data: product } = await supabase.from('products').select('*').eq('slug', slug).single();
 
   if (!product) {
+    const { data: redirectData } = await supabase.from('slug_redirects').select('product_uuid').eq('old_slug', slug).single();
+    if (redirectData) {
+      const { data: redirectedProduct } = await supabase.from('products').select('slug').eq('uuid', redirectData.product_uuid).single();
+      if (redirectedProduct) {
+        redirect(`/products/${redirectedProduct.slug}`);
+      }
+    }
     return { title: 'Product Not Found' };
   }
 
@@ -47,7 +54,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 
 // --- STATIC PAGE GENERATION (FROM YOUR ORIGINAL CODE) ---
-export const dynamicParams = false;
+export const dynamicParams = true;
 
 export async function generateStaticParams() {
   const { data: products } = await supabase.from('products').select('slug');
@@ -56,7 +63,8 @@ export async function generateStaticParams() {
 
 // --- MAIN PAGE COMPONENT (WITH YOUR LOGIC + UI/SEO ENHANCEMENTS) ---
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
-  // Your original data fetching logic is kept exactly the same.
+  
+  const { slug } = await params;
   const { data: product } = await supabase
     .from('products')
     .select('*')
@@ -64,6 +72,14 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     .single();
 
   if (!product) {
+    const { data: redirectData } = await supabase.from('slug_redirects').select('product_uuid').eq('old_slug', slug).single();
+    if (redirectData) {
+      const { data: redirectedProduct } = await supabase.from('products').select('slug').eq('uuid', redirectData.product_uuid).single();
+      if (redirectedProduct) {
+        return redirect(`/products/${redirectedProduct.slug}`);
+      }
+    }
+    // If no product and no redirect, then it's a true 404
     notFound();
   }
 
