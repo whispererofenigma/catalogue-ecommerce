@@ -55,12 +55,12 @@ export async function generateStaticParams() {
 }
 
 // --- MAIN PAGE COMPONENT (WITH YOUR LOGIC + UI/SEO ENHANCEMENTS) ---
-export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function ProductPage({ params }: { params: { slug: string } }) {
   // Your original data fetching logic is kept exactly the same.
   const { data: product } = await supabase
     .from('products')
     .select('*')
-    .eq('slug', (await params).slug)
+    .eq('slug', params.slug)
     .single();
 
   if (!product) {
