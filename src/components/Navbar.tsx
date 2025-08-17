@@ -24,8 +24,7 @@ export default function Navbar() {
 
   const navLinks = [
     { name: 'Products', href: '/products' },
-    { name: 'Categories', href: '/categories' },
-    { name: 'About Us', href: '/about' },
+    { name: 'Categories', href: '/categories' },    
   ];
 
   const handleMobileSearchToggle = () => {

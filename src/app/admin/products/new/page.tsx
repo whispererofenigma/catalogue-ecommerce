@@ -1,5 +1,5 @@
 // app/admin/products/new/page.tsx
-import ProductForm from '@/components/ProductForm';
+import ProductForm from '@/components/admin/ProductForm';
 import { createClient } from '@/utils/supabase/server';
 
 type Category = {

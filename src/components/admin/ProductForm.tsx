@@ -91,7 +91,7 @@ export default function ProductForm({ initialData = null, categories, isEditing 
 
     if (response.ok) {
       alert(`Product ${isEditing ? 'updated' : 'created'} successfully!`);
-      router.push('/admin/products');
+      router.push('/admin');
       router.refresh();
     } else {
       const { error } = await response.json();
