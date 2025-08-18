@@ -123,7 +123,7 @@ export default function Search({ onSearchComplete }: SearchProps) {
                       {/* Optional: Add image here if you have it */}
                       <div>
                         <p className="font-semibold">{product.name}</p>
-                        <p className="text-sm text-gray-600">${product.price.toFixed(2)}</p>
+                        <p className="text-sm text-gray-600">₹{product.price.toFixed(2)}</p>
                       </div>
                     </div>
                   </li>

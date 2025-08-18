@@ -34,7 +34,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       </div>
       <div className="p-4">
         <h3 className="font-semibold text-lg text-gray-800 truncate">{product.name}</h3>
-        <p className="text-gray-600 mt-1">${product.price.toFixed(2)}</p>
+        <p className="text-gray-600 mt-1">₹{product.price.toFixed(2)}</p>
       </div>
     </Link>
   );
