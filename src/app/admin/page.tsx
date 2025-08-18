@@ -9,6 +9,7 @@ import DeleteProductButton from "@/components/admin/DeleteProductButton";
 import AdminSearchInput from "@/components/admin/AdminSearchInput";
 import CategoryFilter from "@/components/admin/CategoryFilter";
 import DeleteCategoryButton from "@/components/admin/DeleteCategoryButton";
+import { signOut } from '../login/action';
 
 // Define the types for our data
 type Product = {
@@ -71,6 +72,11 @@ export default function AdminDashboard() {
             <Link href="/admin/categories/new" className="bg-gray-700 text-white hover:bg-gray-800 px-5 py-2 rounded-lg font-semibold shadow-sm">
               + Add New Category
             </Link>
+            <form action={signOut}>
+                <button className="bg-red-500 text-white hover:bg-red-600 px-5 py-2 rounded-lg font-semibold shadow-sm transition-colors duration-300">
+                    Logout
+                </button>
+            </form>
         </div>
       </div>
 

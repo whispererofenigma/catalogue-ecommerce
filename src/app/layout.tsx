@@ -2,7 +2,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar"; // Import your Navbar
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer"; // Import your Navbar
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,10 +24,11 @@ export default function RootLayout({
         Next.js automatically creates it and populates it with the metadata
         from this file and the specific page being rendered.
       */}
-      <body className={inter.className}>
+      <body  className={inter.className}>
         <Navbar />
         {/* The 'children' prop renders the content of your active page (e.g., ProductPage) */}
-        <main>{children}</main> 
+        <main >{children}</main>
+        <Footer /> 
       </body>
     </html>
   );

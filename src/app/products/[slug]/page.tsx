@@ -4,6 +4,7 @@ import { supabase } from '@/utils/supabase/client';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Metadata } from 'next';
+import PurchaseButtonClient from '@/components/PurchaseButtonClient';
 
 // --- DYNAMIC METADATA FUNCTION (FOR SEO) ---
 // This function runs on the server to generate metadata for the <head> tag.
@@ -24,16 +25,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 
   const siteName = "Xponent"; // Replace with your brand/site name
-  const productImageUrl = product.image_key 
-    ? `${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${product.image_key}` 
+  const productImageUrl = product.image_key
+    ? `${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${product.image_key}`
     : 'https://placehold.co/1200x630/e2e8f0/94a3b8?text=Image';
-   const productUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/products/${product.slug}`;
+  const productUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/products/${product.slug}`;
 
   return {
     title: `${product.name} | ${siteName}`,
     description: product.description?.substring(0, 160) || 'Check out this amazing product.',
     alternates: {
-        canonical: productUrl,
+      canonical: productUrl,
     },
     openGraph: {
       title: product.name,
@@ -44,10 +45,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       type: 'website',
     },
     twitter: {
-        card: 'summary_large_image',
-        title: product.name,
-        description: product.description || '',
-        images: [productImageUrl],
+      card: 'summary_large_image',
+      title: product.name,
+      description: product.description || '',
+      images: [productImageUrl],
     }
   };
 }
@@ -63,7 +64,7 @@ export async function generateStaticParams() {
 
 // --- MAIN PAGE COMPONENT (WITH YOUR LOGIC + UI/SEO ENHANCEMENTS) ---
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
-  
+
   const { slug } = await params;
   const { data: product } = await supabase
     .from('products')
@@ -83,9 +84,11 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     notFound();
   }
 
-  const productImageUrl = product.image_key 
-    ? `${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${product.image_key}` 
+  const productImageUrl = product.image_key
+    ? `${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${product.image_key}`
     : 'https://placehold.co/500x500/e2e8f0/94a3b8?text=Image';
+
+
 
   // --- STRUCTURED DATA (JSON-LD) FOR GOOGLE RICH SNIPPETS ---
   const jsonLd = {
@@ -97,12 +100,12 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     sku: product.uuid,
     brand: { '@type': 'Brand', name: 'Xponent' }, // Replace with your brand
     offers: {
-        '@type': 'Offer',
-        url: `${process.env.NEXT_PUBLIC_SITE_URL}/products/${product.slug}`, // Use your full production URL
-        priceCurrency: 'INR', // Change to your currency (e.g., USD, EUR)
-        price: product.price,
-        availability: 'https://schema.org/InStock',
-        itemCondition: 'https://schema.org/NewCondition',
+      '@type': 'Offer',
+      url: `${process.env.NEXT_PUBLIC_SITE_URL}/products/${product.slug}`, // Use your full production URL
+      priceCurrency: 'INR', // Change to your currency (e.g., USD, EUR)
+      price: product.price,
+      availability: 'https://schema.org/InStock',
+      itemCondition: 'https://schema.org/NewCondition',
     },
   };
 
@@ -129,13 +132,13 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
           {/* Product Image Column */}
           <div className="w-full">
-            <div className="aspect-square relative bg-gray-100 rounded-lg overflow-hidden shadow-md">
+            <div className="aspect-square relative  bg-gray-100 rounded-lg overflow-hidden shadow-md">
               <Image
                 src={productImageUrl}
                 alt={product.name}
                 fill // Use 'fill' for responsive containers
                 className='object-cover'
-                sizes="(max-width: 768px) 100vw, 50vw" // Helps Next.js optimize image loading
+                sizes="(max-width: 768px) 100vw, 10vw" // Helps Next.js optimize image loading
                 priority // Tells Next.js to load this image first (improves performance)
               />
             </div>
@@ -145,7 +148,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           {/* Product Details Column */}
           <div className='flex flex-col h-full'>
             <h1 className='text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900'>{product.name}</h1>
-            
+
             <div className="mt-4 flex items-center gap-4">
               <p className="text-3xl tracking-tight text-gray-800">
                 ₹{product.price.toFixed(2)}
@@ -163,9 +166,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             </div>
 
             <div className="mt-auto pt-8">
-                <button className="w-full bg-blue-600 text-white hover:bg-blue-700 px-8 py-3 rounded-lg font-semibold text-lg shadow-md transition-colors duration-300">
-                    Add to Cart
-                </button>
+              <PurchaseButtonClient product={product} />
             </div>
           </div>
         </div>
