@@ -9,7 +9,7 @@ export default async function FeaturedProducts() {
   // Fetch the 4 most recently updated products
   const { data: products } = await supabase
     .from('products')
-    .select('name, slug, price, product_assets(asset_key)')
+    .select('name, slug, price, image_key')
     .order('last_updated', { ascending: false })
     .limit(4);
 
@@ -25,7 +25,7 @@ export default async function FeaturedProducts() {
           // A little data transformation to fit the ProductCard props
           const productForCard = {
             ...product,
-            image_key: product.product_assets[0]?.asset_key || null
+            image_key: product.image_key || null
           };
           return <ProductCard key={product.slug} product={productForCard} />;
         })}

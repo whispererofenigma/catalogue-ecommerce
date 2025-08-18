@@ -7,7 +7,7 @@ export default function Hero() {
       {/* You can replace this with a high-quality background image */}
       <div 
         className="absolute inset-0 bg-cover bg-center opacity-40" 
-        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1523381294911-8d3cead13475?q=80&w=2070...')" }}
+        style={{ backgroundImage: "url('/hero_bg.jpg')" }}
       ></div>
       
       <div className="relative container mx-auto px-4 py-24 md:py-32 text-center">
