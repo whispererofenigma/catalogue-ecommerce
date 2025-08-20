@@ -11,6 +11,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Xponent - Your E-commerce Store", // A good default title
   description: "Discover amazing products at our online store.",
+  verification: { google: "Y2ybko020f0GduQxmJNjle3acJJRnLJtZ6_efQa0hb8" }
 };
 
 export default function RootLayout({
@@ -24,11 +25,11 @@ export default function RootLayout({
         Next.js automatically creates it and populates it with the metadata
         from this file and the specific page being rendered.
       */}
-      <body  className={inter.className}>
+      <body className={inter.className}>
         <Navbar />
         {/* The 'children' prop renders the content of your active page (e.g., ProductPage) */}
         <main >{children}</main>
-        <Footer /> 
+        <Footer />
       </body>
     </html>
   );
