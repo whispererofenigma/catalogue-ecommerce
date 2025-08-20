@@ -1,7 +1,7 @@
 // app/search/page.tsx
 'use client'; // This must remain a client component due to hooks like useState and useEffect
-
 import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 
 // Define a type for our product data
@@ -57,22 +57,15 @@ function SearchPageSkeleton({ query }: { query: string | null }) {
 
 
 export default function SearchPage() {
-  // State to hold URL parameters
-  const [query, setQuery] = useState<string | null>(null);
-  const [highlight, setHighlight] = useState<string | null>(null);
+   const searchParams = useSearchParams()
+  // derive params reactively
+  const query = searchParams.get("q");
+  const highlight = searchParams.get("highlight");
 
-  // State for data, loading, and error status
   const [highlightedProduct, setHighlightedProduct] = useState<Product | null>(null);
   const [otherProducts, setOtherProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  // Effect to read URL search params on component mount
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    setQuery(params.get('q'));
-    setHighlight(params.get('highlight'));
-  }, []);
 
 
   // Effect to fetch data when 'query' or 'highlight' changes
