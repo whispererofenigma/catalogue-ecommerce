@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 import PurchaseButtonClient from '@/components/PurchaseButtonClient';
 import CustomizableProductClient from '@/components/CustomizableProductClient';
+import ProductImageGallery from '@/components/ProductImageGallery';
 
 // --- DYNAMIC METADATA FUNCTION (FOR SEO) ---
 // This function runs on the server to generate metadata for the <head> tag.
@@ -86,21 +87,29 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     notFound();
   }
 
+  const { data: secondaryImages } = await supabase
+    .from('product_secondary_images')
+    .select('image_key')
+    .eq('product_id', product.uuid)
+    .order('display_order');
+
   const isCustomizable = product.slug === CUSTOMIZABLE_PRODUCT_SLUG;
 
-  const productImageUrl = product.image_key
-    ? `${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${product.image_key}`
-    : 'https://placehold.co/500x500/e2e8f0/94a3b8?text=Image';
-
-
-
   // --- STRUCTURED DATA (JSON-LD) FOR GOOGLE RICH SNIPPETS ---
+
+  const allImageUrls = [
+      product.image_key,
+      ...(secondaryImages?.map(img => img.image_key) || [])
+    ]
+    .filter(Boolean)
+    .map(key => `${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${key}`);
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: product.name,
     description: product.description,
-    image: productImageUrl,
+    image: allImageUrls,
     sku: product.uuid,
     brand: { '@type': 'Brand', name: 'Xponent' }, // Replace with your brand
     offers: {
@@ -140,13 +149,11 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               // If it's the special product, render the Client Component
               <CustomizableProductClient />
             ) : (
-            <div className="aspect-square relative max-h-[60vh] bg-gray-100 rounded-lg overflow-hidden shadow-md">
-              <img
-                src={productImageUrl}
-                alt={product.name}                
-                className='object-cover h-full'
-                // 
-               
+            <div className="aspect-square relative  rounded-lg">
+              
+              <ProductImageGallery 
+                mainImageKey={product.image_key}
+                secondaryImages={secondaryImages || []}
               />
             </div>)}
             {/* A placeholder for a future multi-image thumbnail gallery */}
