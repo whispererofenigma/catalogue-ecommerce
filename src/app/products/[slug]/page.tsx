@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Metadata } from 'next';
 import PurchaseButtonClient from '@/components/PurchaseButtonClient';
+import CustomizableProductClient from '@/components/CustomizableProductClient';
 
 // --- DYNAMIC METADATA FUNCTION (FOR SEO) ---
 // This function runs on the server to generate metadata for the <head> tag.
@@ -62,6 +63,8 @@ export async function generateStaticParams() {
   return products?.map((p) => ({ slug: p.slug })) ?? [];
 }
 
+const CUSTOMIZABLE_PRODUCT_SLUG = 'custom-designer-tshirt';
+
 // --- MAIN PAGE COMPONENT (WITH YOUR LOGIC + UI/SEO ENHANCEMENTS) ---
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
 
@@ -83,6 +86,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     // If no product and no redirect, then it's a true 404
     notFound();
   }
+
+  const isCustomizable = product.slug === CUSTOMIZABLE_PRODUCT_SLUG;
 
   const productImageUrl = product.image_key
     ? `${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${product.image_key}`
@@ -132,6 +137,10 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
           {/* Product Image Column */}
           <div className="w-full">
+            {isCustomizable ? (
+              // If it's the special product, render the Client Component
+              <CustomizableProductClient />
+            ) : (
             <div className="aspect-square relative  bg-gray-100 rounded-lg overflow-hidden shadow-md">
               <Image
                 src={productImageUrl}
@@ -141,7 +150,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                 sizes="(max-width: 768px) 100vw, 10vw" // Helps Next.js optimize image loading
                 priority // Tells Next.js to load this image first (improves performance)
               />
-            </div>
+            </div>)}
             {/* A placeholder for a future multi-image thumbnail gallery */}
           </div>
 

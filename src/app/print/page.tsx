@@ -8,22 +8,7 @@ import 'cropperjs/dist/cropper.css';
 
 // Icon for the upload button
 const UploadIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="mr-2 h-5 w-5"
-  >
-    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-    <polyline points="17 8 12 3 7 8" />
-    <line x1="12" y1="3" x2="12" y2="15" />
-  </svg>
+  <svg xmlns="http://www.w3.org/2000/svg" fill='white' width="24" height="24" viewBox="0 0 640 640"><path d="M352 173.3L352 384C352 401.7 337.7 416 320 416C302.3 416 288 401.7 288 384L288 173.3L246.6 214.7C234.1 227.2 213.8 227.2 201.3 214.7C188.8 202.2 188.8 181.9 201.3 169.4L297.3 73.4C309.8 60.9 330.1 60.9 342.6 73.4L438.6 169.4C451.1 181.9 451.1 202.2 438.6 214.7C426.1 227.2 405.8 227.2 393.3 214.7L352 173.3zM320 464C364.2 464 400 428.2 400 384L480 384C515.3 384 544 412.7 544 448L544 480C544 515.3 515.3 544 480 544L160 544C124.7 544 96 515.3 96 480L96 448C96 412.7 124.7 384 160 384L240 384C240 428.2 275.8 464 320 464zM464 488C477.3 488 488 477.3 488 464C488 450.7 477.3 440 464 440C450.7 440 440 450.7 440 464C440 477.3 450.7 488 464 488z"/></svg>
 );
 
 // Icon for the crop button
@@ -61,7 +46,7 @@ export default function PrintPage() {
   const cropperRef = useRef<ReactCropperElement>(null);
 
   // --- T-Shirt Asset ---
-  const tshirtImageUrl = '/tshirt_mockup.jpg';
+  const tshirtImageUrl = '/tshirt_mockup_new.jpg';
 
   // --- Effect 1: Generate Displacement Map from T-Shirt Image ---
   useEffect(() => {
@@ -120,9 +105,9 @@ export default function PrintPage() {
         logoImg.src = croppedImage;
 
         logoImg.onload = () => {
-          const logoMaxWidth = canvas.width * 0.25;
+          const logoMaxWidth = canvas.width * 0.35;
           const centerX = canvas.width / 2;
-          const centerY = canvas.height * 0.47;
+          const centerY = canvas.height * 0.50;
           const aspectRatio = logoImg.width / logoImg.height;
           const drawWidth = logoMaxWidth;
           const drawHeight = drawWidth / aspectRatio;
@@ -147,7 +132,7 @@ export default function PrintPage() {
             const mapIndex = (tshirtY * displacementMap.width + tshirtX) * 4;
             const grayscale = displacementMap.data[mapIndex];
             const displacement = (grayscale - 128);
-            const displacementStrength = 0.15;
+            const displacementStrength = 0.20;
             const offsetX = displacement * displacementStrength;
             const offsetY = displacement * displacementStrength;
             const srcX = Math.round(originalX + offsetX);
@@ -311,6 +296,7 @@ export default function PrintPage() {
                 style={{ height: '100%', width: '100%' }}
                 // Cropper.js options
                 viewMode={0}
+                aspectRatio={0.80}
                 background={true}
                 autoCropArea={1}
                 dragMode="move"
