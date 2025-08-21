@@ -149,7 +149,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               // If it's the special product, render the Client Component
               <CustomizableProductClient />
             ) : (
-            <div className="aspect-square relative  rounded-lg">
+            <div className="aspect-square relative rounded-lg">
               
               <ProductImageGallery 
                 mainImageKey={product.image_key}

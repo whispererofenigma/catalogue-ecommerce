@@ -47,13 +47,13 @@ export default function ProductImageGallery({ mainImageKey, secondaryImages }: P
     <div className="grid grid-cols-1 md:grid-cols-5 gap-3 lg:gap-5">
       {/* Thumbnails Column */}
       <div className="md:col-span-1 order-2 md:order-1">
-        <div className="flex md:flex-col gap-2 overflow-x-scroll p-2">
+        <div className="flex md:flex-col gap-2 overflow-x-scroll md:overflow-x-hidden p-2">
           {allImages.map(({ image_key }) => (
             <button
               key={image_key}
               onClick={() => setActiveImageKey(image_key)}
               // Set a fixed width/height for mobile, and let flexbox handle desktop
-              className={`w-16 h-16 md:w-full md:h-auto aspect-square rounded-md overflow-hidden relative focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 flex-shrink-0 ${
+              className={`w-16 h-16 md:w-full md:h-auto aspect-square rounded-md relative focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 flex-shrink-0 ${
                 activeImageKey === image_key ? 'ring-2 ring-blue-600' : 'ring-1 ring-gray-300'
               }`}
             >
@@ -71,7 +71,7 @@ export default function ProductImageGallery({ mainImageKey, secondaryImages }: P
       
       {/* Main Image Column */}
       <div className="md:col-span-4 order-1 md:order-2">
-        <div className="aspect-square relative bg-gray-100 rounded-lg overflow-scroll ">
+        <div className="aspect-square relative bg-gray-100 rounded-lg">
           <Image
             src={activeImageUrl}
             alt="Main product view"
