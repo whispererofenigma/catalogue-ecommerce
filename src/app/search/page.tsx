@@ -135,7 +135,7 @@ export default function SearchPage() {
 
       {otherProducts.length > 0 && (
         <div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
             <div className=''>
               <h2 className='text-3xl font-bold text-green-500 mb-6'>
                 Your Selection
@@ -144,14 +144,17 @@ export default function SearchPage() {
                 <ProductCard key={highlightedProduct.slug} product={highlightedProduct} />
               )}
             </div>
-            <div>
-              <h2 className='text-3xl font-bold text-gray-900 mb-6'>
-                {highlightedProduct ? 'Similar Products' : 'All Matching Products'}
-              </h2>
-              {otherProducts.map(product => (
-                <ProductCard key={product.slug} product={product} />
-              ))}
-            </div>
+          </div>
+
+          <h2 className='text-3xl font-bold text-gray-900 mb-6'>
+            {highlightedProduct ? 'Similar Products' : 'All Matching Products'}
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+
+            {otherProducts.map(product => (
+              <ProductCard key={product.slug} product={product} />
+            ))}
+
           </div>
         </div>
       )}
