@@ -4,7 +4,7 @@ import { useState, useRef } from 'react';
 import Link from 'next/link';
 
 import Search from './Search';
-import { useOnClickOutside } from '@/app/hooks/useOnClickOutside';// <-- 1. Import the custom hook
+import { useOnClickOutside } from '@/hooks/useOnClickOutside';// <-- 1. Import the custom hook
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

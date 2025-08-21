@@ -29,12 +29,12 @@ export default function CustomizableProductClient() {
             {({ canvasRef, triggerUpload, croppedImage }) => (
                 <div className="space-y-4">
                     {/* The Preview Canvas */}
-                    <div className="aspect-square relative w-full rounded-lg border bg-gray-50 p-2 shadow-inner">
+                    <div className="aspect-square relative max-h-[60vh] rounded-lg  bg-gray-50 p-2 shadow-md">
                         <canvas ref={canvasRef} className="h-full w-full" />
                     </div>
 
                     {/* The Interactive Controls */}
-                    <div className="rounded-lg border bg-gray-50 p-4 space-y-4 shadow-inner">
+                    <div className="rounded-lg  bg-gray-50 p-4 space-y-4 shadow-md">
                         <div>
                             <label htmlFor="shirtColor" className="mb-2 block text-sm font-medium text-gray-700">
                                 T-Shirt Color
@@ -45,7 +45,7 @@ export default function CustomizableProductClient() {
                                     type="color"
                                     value={shirtColor}
                                     onChange={(e) => setShirtColor(e.target.value)}
-                                    className="h-10 w-16 cursor-pointer rounded-md border border-gray-300 p-1"
+                                    className="h-10 w-16 cursor-pointer rounded-md shadow-md border-gray-300 p-1"
                                 />
                             </div>
                         </div>

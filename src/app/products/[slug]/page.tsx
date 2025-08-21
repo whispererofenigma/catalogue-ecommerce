@@ -1,7 +1,6 @@
 // app/products/[slug]/page.tsx
 import { notFound, redirect } from 'next/navigation';
 import { supabase } from '@/utils/supabase/client';
-import Image from 'next/image';
 import Link from 'next/link';
 import { Metadata } from 'next';
 import PurchaseButtonClient from '@/components/PurchaseButtonClient';
@@ -141,14 +140,13 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               // If it's the special product, render the Client Component
               <CustomizableProductClient />
             ) : (
-            <div className="aspect-square relative  bg-gray-100 rounded-lg overflow-hidden shadow-md">
-              <Image
+            <div className="aspect-square relative max-h-[60vh] bg-gray-100 rounded-lg overflow-hidden shadow-md">
+              <img
                 src={productImageUrl}
-                alt={product.name}
-                fill // Use 'fill' for responsive containers
-                className='object-cover'
-                sizes="(max-width: 768px) 100vw, 10vw" // Helps Next.js optimize image loading
-                priority // Tells Next.js to load this image first (improves performance)
+                alt={product.name}                
+                className='object-cover h-full'
+                // 
+               
               />
             </div>)}
             {/* A placeholder for a future multi-image thumbnail gallery */}
