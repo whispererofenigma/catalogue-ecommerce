@@ -15,7 +15,7 @@ interface CategoryCardProps {
 
 export default function CategoryCard({ category }: CategoryCardProps) {
 
-  const thumbUrl = category.thumbnail_key ? `${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${category.thumbnail_key}` : '/placeholder-image.png';
+  const thumbUrl = `${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${category.thumbnail_key}`;
   return (
     <Link
       href={`/categories/${category.slug}`}
