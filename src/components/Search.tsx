@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from '@/components/NextImage';
 
 type SearchResult = {
   name: string;
@@ -92,6 +93,8 @@ export default function Search({ onSearchComplete }: SearchProps) {
     }
   };
 
+ 
+
   return (
     // The className="relative" is important for positioning the results dropdown
     <div className="relative w-full max-w-lg">
@@ -119,8 +122,9 @@ export default function Search({ onSearchComplete }: SearchProps) {
                     className="border-b last:border-b-0 cursor-pointer"
                     onClick={() => handleSuggestionClick(product)}
                   >
-                    <div className="flex items-center p-2 hover:bg-gray-100">
-                      {/* Optional: Add image here if you have it */}
+                    <div className="flex gap-2 items-center p-2 hover:bg-gray-100">
+                      
+                      <Image className='rounded-sm object-cover' width={50} height={50} alt={product.name} src={`${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${product.image_key}`}/>
                       <div>
                         <p className="font-semibold">{product.name}</p>
                         <p className="text-sm text-gray-600">₹{product.price.toFixed(2)}</p>

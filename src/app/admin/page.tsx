@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
+import Image from '@/components/NextImage';
 import DeleteProductButton from "@/components/admin/DeleteProductButton";
 import AdminSearchInput from "@/components/admin/AdminSearchInput";
 import CategoryFilter from "@/components/admin/CategoryFilter";

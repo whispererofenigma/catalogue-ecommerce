@@ -3,7 +3,7 @@
 
 import { useState, FormEvent, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
+import Image from '@/components/NextImage';
 
 // Define the types for props and data
 type Product = {

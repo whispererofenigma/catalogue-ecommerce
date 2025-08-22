@@ -1,6 +1,6 @@
 // components/ProductCard.tsx
 import Link from 'next/link';
-import Image from 'next/image';
+import Image from '@/components/NextImage';
 
 type Product = {
   name: string;
@@ -28,7 +28,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           src={imageUrl}
           alt={product.name}
           fill
-          style={{ objectFit: 'cover' }}
+          style={{ objectFit: 'cover', objectPosition: 'start' }}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
       </div>

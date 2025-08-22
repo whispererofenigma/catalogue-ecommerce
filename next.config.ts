@@ -1,6 +1,7 @@
 // next.config.mjs
 import type { NextConfig } from "next";
 
+
 // Define the security headers array
 const securityHeaders = [
   {
@@ -45,6 +46,7 @@ const nextConfig: NextConfig = {
         },
     ],
   },
+ 
   async headers() {
     return [
       {

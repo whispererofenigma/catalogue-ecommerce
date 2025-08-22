@@ -1,6 +1,6 @@
 // components/CategoryCard.tsx
 import Link from 'next/link';
-import Image from 'next/image';
+import Image from '@/components/NextImage';
 
 type Category = {
   name: string;

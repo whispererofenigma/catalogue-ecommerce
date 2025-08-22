@@ -3,7 +3,7 @@
 
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
+import Image from '@/components/NextImage';
 
 type Category = {
   uuid?: string;

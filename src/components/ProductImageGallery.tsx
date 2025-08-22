@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import Image from 'next/image';
+import Image from '@/components/NextImage';
 
 interface ProductImageGalleryProps {
   mainImageKey?: string | null;
@@ -62,7 +62,7 @@ export default function ProductImageGallery({ mainImageKey, secondaryImages }: P
                 alt="Product thumbnail"
                 fill
                 sizes="(max-width: 768px) 20vw, 10vw"
-                className="object-cover"
+                className="object-cover rounded-md"
               />
             </button>
           ))}
