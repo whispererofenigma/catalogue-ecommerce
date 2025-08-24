@@ -10,8 +10,8 @@ const inter = Inter({ subsets: ["latin"] });
 
 // You can have default metadata here, which pages can override.
 export const metadata: Metadata = {
-  title: "Xponent - Your E-commerce Store", // A good default title
-  description: "Discover amazing products at our online store.",
+  title: "Design Anything Online - Enter the realm of customisation", // A good default title
+  description: "Discovervarieties of products and add your signature by customising on-the-go",
   verification: { google: "Y2ybko020f0GduQxmJNjle3acJJRnLJtZ6_efQa0hb8" }
 };
 
