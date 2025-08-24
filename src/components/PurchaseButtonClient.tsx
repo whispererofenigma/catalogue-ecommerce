@@ -1,20 +1,27 @@
-// components/PurchaseButtonClient.tsx
+// src/components/PurchaseButtonClient.tsx
 'use client';
 
-import { useState } from 'react';
-import Link from 'next/link';
+import { useState, useEffect, useMemo } from 'react'; // Import useMemo
 
 // Define a type for the product prop for type safety
 type Product = {
   name: string;
   slug: string;
+  customisability?: boolean;
+  sizes?: string | null;
 };
 
 interface PurchaseButtonProps {
   product: Product;
+  customImage?: Blob | null;
+  generatedDesignImage?: Blob | null;
 }
 
-export default function PurchaseButtonClient({ product }: PurchaseButtonProps) {
+export default function PurchaseButtonClient({ 
+  product, 
+  customImage: initialCustomImage,
+  generatedDesignImage: initialGeneratedImage
+}: PurchaseButtonProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [address, setAddress] = useState({
     name: '',
@@ -24,13 +31,57 @@ export default function PurchaseButtonClient({ product }: PurchaseButtonProps) {
     pincode: '',
     state: ''
   });
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [customImage, setCustomImage] = useState<File | Blob | null>(initialCustomImage || null);
+  const [generatedDesignImage] = useState<File | Blob | null>(initialGeneratedImage || null); // Removed unused setter
+
+  // Memoize the availableSizes array to prevent re-creation on every render
+  const availableSizes = useMemo(() => {
+    return product.sizes ? product.sizes.split(',').map(s => s.trim()) : [];
+  }, [product.sizes]);
+
+  // Set default size if it's the only one
+  useEffect(() => {
+    if (availableSizes.length === 1) {
+      setSelectedSize(availableSizes[0]);
+    }
+  }, [availableSizes]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setAddress(prev => ({ ...prev, [name]: value }));
   };
 
-  const constructWhatsAppMessage = () => {
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setCustomImage(e.target.files[0]);
+    }
+  };
+
+  const uploadFile = async (file: File | Blob, fileType: string): Promise<string> => {
+    const presignedUrlResponse = await fetch('/api/r2/presigned-url', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fileType }),
+    });
+    if (!presignedUrlResponse.ok) throw new Error('Failed to get presigned URL.');
+    const { presignedUrl, objectKey } = await presignedUrlResponse.json();
+    const uploadResponse = await fetch(presignedUrl, { method: 'PUT', body: file });
+    if (!uploadResponse.ok) throw new Error('Failed to upload file to R2.');
+    return `${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${objectKey}`;
+  };
+
+  const constructWhatsAppMessage = async () => {
+    let originalImageUrl = '';
+    let generatedImageUrl = '';
+
+    if (customImage) {
+      originalImageUrl = await uploadFile(customImage, customImage.type);
+    }
+    if (generatedDesignImage) {
+      generatedImageUrl = await uploadFile(generatedDesignImage, generatedDesignImage.type);
+    }
+
     const productUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/products/${product.slug}`;
 
     const formattedAddress = `
@@ -42,15 +93,36 @@ Address: ${address.street}, ${address.city}, ${address.state} - ${address.pincod
 ---------------------
     `.trim();
 
-    return `Hi! I'd like to place an order for this product:\n${productUrl}\n\n${formattedAddress}\n\nPlease let me know the next steps for customization and payment.`;
+    let message = `Hi! I'd like to place an order for this product:\n${productUrl}`;
+    if (selectedSize) {
+      message += `\nSize: ${selectedSize}`;
+    }
+    message += `\n\n${formattedAddress}`;
+    if (originalImageUrl) {
+      message += `\n\nOriginal Design: ${originalImageUrl}`;
+    }
+    if (generatedImageUrl) {
+      message += `\n\nCustomized T-Shirt View: ${generatedImageUrl}`;
+    }
+    message += `\n\nPlease let me know the next steps for payment.`;
+
+    return message;
   };
 
-  const whatsAppNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "919563357911";
-  const finalWhatsAppUrl = `https://wa.me/${whatsAppNumber}?text=${encodeURIComponent(constructWhatsAppMessage())}`;
+  const handleConfirmAndSend = async () => {
+    if (availableSizes.length > 0 && !selectedSize) {
+      alert("Please select a size.");
+      return;
+    }
+    const message = await constructWhatsAppMessage();
+    const whatsAppNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "919563357911";
+    const finalWhatsAppUrl = `https://wa.me/${whatsAppNumber}?text=${encodeURIComponent(message)}`;
+    window.open(finalWhatsAppUrl, '_blank');
+    setIsModalOpen(false);
+  };
 
   return (
     <>
-      {/* The main button that opens the modal */}
       <button
         onClick={() => setIsModalOpen(true)}
         className="flex items-center justify-center w-full bg-green-500 text-white hover:bg-green-600 px-8 py-4 rounded-lg font-bold text-lg shadow-md transition-transform hover:scale-101"
@@ -59,13 +131,32 @@ Address: ${address.street}, ${address.city}, ${address.state} - ${address.pincod
         Purchase on WhatsApp
       </button>
 
-      {/* The Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center">
           <div className="bg-white p-8 rounded-lg shadow-2xl w-full max-w-md m-4">
-            <h2 className="text-2xl font-bold mb-4">Shipping Details</h2>
-            <p className="text-sm text-gray-600 mb-6">Please provide your address to proceed.</p>
+            <h2 className="text-2xl font-bold mb-4">Confirm Your Order</h2>
             <form className="space-y-4">
+              {availableSizes.length > 0 && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Select Size</label>
+                  <div className="flex flex-wrap gap-2">
+                    {availableSizes.map(size => (
+                      <button
+                        key={size}
+                        type="button"
+                        onClick={() => setSelectedSize(size)}
+                        className={`px-3 py-1.5 border rounded-md text-sm ${
+                          selectedSize === size
+                            ? 'bg-indigo-600 text-white border-indigo-600'
+                            : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                        }`}
+                      >
+                        {size}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
               <input type="text" name="name" placeholder="Full Name" required className="w-full p-2 border rounded" value={address.name} onChange={handleInputChange} />
               <input type="tel" name="phone" placeholder="Phone Number" required className="w-full p-2 border rounded" value={address.phone} onChange={handleInputChange} />
               <textarea name="street" placeholder="Street Address, House No." required className="w-full p-2 border rounded" value={address.street} onChange={handleInputChange} />
@@ -75,11 +166,23 @@ Address: ${address.street}, ${address.city}, ${address.state} - ${address.pincod
               </div>
               <input type="text" name="state" placeholder="State" required className="w-full p-2 border rounded" value={address.state} onChange={handleInputChange} />
               
+              {product.customisability && !initialCustomImage && (
+                <div>
+                  <label htmlFor="customImage" className="block text-sm font-medium text-gray-700">Custom Image</label>
+                  <input id="customImage" type="file" accept="image/*" onChange={handleImageChange} className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"/>
+                </div>
+              )}
+
               <div className="flex justify-end gap-4 pt-4">
                 <button type="button" onClick={() => setIsModalOpen(false)} className="px-6 py-2 rounded text-gray-700 border hover:bg-gray-100">Cancel</button>
-                <Link href={finalWhatsAppUrl} target="_blank" className="px-6 py-2 rounded bg-green-500 text-white hover:bg-green-600">
+                <button 
+                  type="button" 
+                  onClick={handleConfirmAndSend} 
+                  disabled={availableSizes.length > 0 && !selectedSize}
+                  className="px-6 py-2 rounded bg-green-500 text-white hover:bg-green-600 disabled:bg-gray-400"
+                >
                   Confirm & Send
-                </Link>
+                </button>
               </div>
             </form>
           </div>

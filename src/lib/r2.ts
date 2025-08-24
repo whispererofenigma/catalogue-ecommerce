@@ -1,4 +1,4 @@
-// lib/r2.ts
+// src/lib/r2.ts
 import { S3Client, DeleteObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { createId } from '@paralleldrive/cuid2';
@@ -12,14 +12,14 @@ const r2 = new S3Client({
   },
 });
 
-export const getSignedUploadUrl = async (fileType: string) => {
-  const objectKey = createId();
+export const getSignedUploadUrl = async (fileType: string, prefix: string = '') => {
+  const uniqueId = createId();
+  const objectKey = prefix ? `${prefix}/${uniqueId}` : uniqueId;
 
   const command = new PutObjectCommand({
     Bucket: process.env.R2_BUCKET_NAME!,
     Key: objectKey,
     ContentType: fileType,
-    // Add the Cache-Control header here!
     CacheControl: 'public, max-age=31536000, immutable', 
   });
 

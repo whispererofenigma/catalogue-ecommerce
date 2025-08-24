@@ -1,11 +1,10 @@
-// app/api/r2/presigned-url/route.ts
-
+// src/app/api/r2/presigned-url/route.ts
 import { NextResponse } from 'next/server';
-import { getSignedUploadUrl } from '@/lib/r2'; // Adjust path if your lib is elsewhere
+import { getSignedUploadUrl } from '@/lib/r2';
 
 export async function POST(request: Request) {
   try {
-    const { fileType } = await request.json();
+    const { fileType, prefix } = await request.json();
 
     if (!fileType) {
       return NextResponse.json(
@@ -14,8 +13,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // Get the signed URL from our R2 helper
-    const { presignedUrl, objectKey } = await getSignedUploadUrl(fileType);
+    const { presignedUrl, objectKey } = await getSignedUploadUrl(fileType, prefix);
 
     if (!presignedUrl || !objectKey) {
         return NextResponse.json(
@@ -24,7 +22,6 @@ export async function POST(request: Request) {
           );
     }
 
-    // Return the URL and the generated key to the client
     return NextResponse.json({ presignedUrl, objectKey });
 
   } catch (error) {

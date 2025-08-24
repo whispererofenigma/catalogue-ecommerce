@@ -1,3 +1,4 @@
+// src/app/api/products/[slug]/route.ts
 import { createAdminClient } from '@/utils/supabase/server';
 import { NextResponse } from 'next/server';
 import { deleteR2Object } from '@/lib/r2';
@@ -21,10 +22,10 @@ export async function PUT(request: Request, { params }: { params: Promise<{ slug
 
     try {
         const { productData, imageActions } = await request.json();
-        const { 
-            oldMainImageKeyToDelete, 
-            newSecondaryImageKeys, 
-            deletedSecondaryImageKeys 
+        const {
+            oldMainImageKeyToDelete,
+            newSecondaryImageKeys,
+            deletedSecondaryImageKeys
         } = imageActions || {};
 
         // --- Step 1: Update the core product details ---
@@ -50,16 +51,16 @@ export async function PUT(request: Request, { params }: { params: Promise<{ slug
                 .from('product_secondary_images')
                 .delete()
                 .in('image_key', deletedSecondaryImageKeys);
-            
+
             if (dbDeleteError) {
                 // Log the error but don't block the process. The R2 objects might still be deletable.
                 console.error('Error deleting secondary image records from DB:', dbDeleteError.message);
             }
-            
+
             // Then, delete the actual files from R2 storage.
             // Using Promise.allSettled to ensure all deletions are attempted even if some fail.
             await Promise.allSettled(
-                deletedSecondaryImageKeys.map((key: string) => 
+                deletedSecondaryImageKeys.map((key: string) =>
                     deleteR2Object(key).catch(e => console.error(`Failed to delete ${key} from R2:`, e))
                 )
             );
@@ -76,7 +77,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ slug
             const { error: insertError } = await supabase
                 .from('product_secondary_images')
                 .insert(imagesToInsert);
-            
+
             if (insertError) {
                 console.error('Error inserting new secondary images:', insertError.message);
                 // This is a more critical error, as the product is updated but images are missing.
@@ -86,7 +87,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ slug
 
         // --- Step 4: Handle old Main Image deletion from R2 ---
         if (oldMainImageKeyToDelete) {
-            await deleteR2Object(oldMainImageKeyToDelete).catch(e => 
+            await deleteR2Object(oldMainImageKeyToDelete).catch(e =>
                 console.error(`Failed to delete old main image ${oldMainImageKeyToDelete} from R2:`, e)
             );
         }
@@ -124,7 +125,7 @@ export async function DELETE(_request: Request, { params }: { params: Promise<{ 
 
         if (productFetchError) {
             // If the product is already gone, it's a success from the user's perspective.
-            if (productFetchError.code === 'PGRST116') { 
+            if (productFetchError.code === 'PGRST116') {
                 return NextResponse.json({ message: 'Product not found, assumed already deleted.' });
             }
             console.error('Error fetching product for deletion:', productFetchError.message);
@@ -141,7 +142,7 @@ export async function DELETE(_request: Request, { params }: { params: Promise<{ 
             .from('product_secondary_images')
             .select('image_key')
             .eq('product_id', product.uuid);
-        
+
         if (secondaryImagesError) {
             console.error('Error fetching secondary images for deletion:', secondaryImagesError.message);
             // We can still proceed to delete the main product, but this is a partial failure.
@@ -167,7 +168,7 @@ export async function DELETE(_request: Request, { params }: { params: Promise<{ 
         // Step 4: Delete all collected image files from R2 storage.
         if (allImageKeysToDelete.length > 0) {
             await Promise.allSettled(
-                allImageKeysToDelete.map(key => 
+                allImageKeysToDelete.map(key =>
                     deleteR2Object(key).catch(e => console.error(`Failed to delete ${key} from R2:`, e))
                 )
             );

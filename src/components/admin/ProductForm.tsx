@@ -1,4 +1,4 @@
-// components/admin/ProductForm.tsx
+// src/components/admin/ProductForm.tsx
 'use client';
 
 import { useState, FormEvent, useMemo } from 'react';
@@ -14,6 +14,8 @@ type Product = {
   slug?: string;
   image_key?: string | null;
   category_id?: string | null;
+  sizes?: string | null; // Add sizes property
+  customisability?: boolean; // Add customisability property
 };
 
 type Category = {
@@ -34,16 +36,16 @@ interface ProductFormProps {
   isEditing?: boolean;
 }
 
-export default function ProductForm({ 
-  initialData = null, 
-  categories, 
-  secondaryImages = [], 
-  isEditing = false 
+export default function ProductForm({
+  initialData = null,
+  categories,
+  secondaryImages = [],
+  isEditing = false
 }: ProductFormProps) {
   const [product, setProduct] = useState<Product>(
-    initialData || { name: '', description: '', price: 0, category_id: null }
+    initialData || { name: '', description: '', price: 0, category_id: null, sizes: '', customisability: false }
   );
-  
+
   // State for main image management
   const [mainImageFile, setMainImageFile] = useState<File | null>(null);
   const [isMainImageDeleted, setIsMainImageDeleted] = useState(false);
@@ -52,10 +54,10 @@ export default function ProductForm({
   const [currentSecondaryImages, setCurrentSecondaryImages] = useState(secondaryImages);
   const [newSecondaryImageFiles, setNewSecondaryImageFiles] = useState<File[]>([]);
   const [keysToDelete, setKeysToDelete] = useState<string[]>([]);
-  
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
-  
+
   const r2PublicUrl = process.env.NEXT_PUBLIC_R2_PUBLIC_URL;
 
   const newImagePreviews = useMemo(() => {
@@ -86,7 +88,7 @@ export default function ProductForm({
   const removeNewSecondaryImage = (index: number) => {
     setNewSecondaryImageFiles(prev => prev.filter((_, i) => i !== index));
   };
-  
+
   const deleteExistingSecondaryImage = (image: SecondaryImage) => {
     setKeysToDelete(prev => [...prev, image.image_key]);
     setCurrentSecondaryImages(prev => prev.filter(img => img.uuid !== image.uuid));
@@ -94,12 +96,11 @@ export default function ProductForm({
 
 
   // --- FORM SUBMISSION LOGIC ---
-
-  const uploadFile = async (file: File): Promise<string> => {
+const uploadFile = async (file: File): Promise<string> => {
     const presignedUrlResponse = await fetch('/api/r2/presigned-url', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fileType: file.type }),
+      body: JSON.stringify({ fileType: file.type, prefix: 'products' }), // Add prefix here
     });
 
     if (!presignedUrlResponse.ok) throw new Error('Failed to get presigned URL.');
@@ -148,6 +149,8 @@ export default function ProductForm({
           price: product.price,
           image_key: finalMainImageKey,
           category_id: product.category_id,
+          sizes: product.sizes, // Add sizes to payload
+          customisability: product.customisability, // Add customisability to payload
         },
         imageActions: {
           oldMainImageKeyToDelete,
@@ -204,12 +207,20 @@ export default function ProductForm({
             <label htmlFor="price" className="block text-sm font-medium text-gray-700">Price</label>
             <input id="price" type="number" step="0.01" value={product.price} onChange={(e) => setProduct({ ...product, price: parseFloat(e.target.value) || 0 })} required className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"/>
           </div>
+          <div>
+            <label htmlFor="sizes" className="block text-sm font-medium text-gray-700">Sizes (comma-separated)</label>
+            <input id="sizes" type="text" value={product.sizes || ''} onChange={(e) => setProduct({ ...product, sizes: e.target.value })} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"/>
+          </div>
+          <div className="flex items-center">
+            <input id="customisability" type="checkbox" checked={product.customisability} onChange={(e) => setProduct({ ...product, customisability: e.target.checked })} className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"/>
+            <label htmlFor="customisability" className="ml-2 block text-sm text-gray-900">Customisable</label>
+          </div>
       </div>
-      
+
       {/* Main Image Section */}
       <div className="space-y-4 border-t pt-8">
         <h3 className="text-lg font-medium text-gray-900">Main Product Image</h3>
-        
+
         {isEditing && initialData?.image_key && !isMainImageDeleted && (
           <div className="relative group w-40 h-40">
             <Image src={`${r2PublicUrl}/${initialData.image_key}`} alt="Current main product image" width={160} height={160} className="rounded-md object-cover aspect-square"/>
@@ -218,7 +229,7 @@ export default function ProductForm({
             </button>
           </div>
         )}
-        
+
         {isMainImageDeleted && <p className="text-sm text-red-600">Main image will be removed upon saving.</p>}
 
         <div>
@@ -230,7 +241,7 @@ export default function ProductForm({
       {/* Secondary Images Section */}
       <div className="space-y-4 border-t pt-8">
         <h3 className="text-lg font-medium text-gray-900">Secondary Images</h3>
-        
+
         <div className="min-h-[100px] grid grid-cols-2 md:grid-cols-4 gap-4">
           {/* Existing Images */}
           {currentSecondaryImages.map((image) => (
@@ -247,7 +258,7 @@ export default function ProductForm({
             </div>
           ))}
         </div>
-        
+
         <div>
           <label htmlFor="secondary_images" className="block text-sm font-medium text-gray-700">Add More Images</label>
           <input id="secondary_images" type="file" multiple accept="image/*" onChange={handleSecondaryImagesChange} className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"/>

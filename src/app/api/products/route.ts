@@ -1,4 +1,4 @@
-// app/api/products/route.ts
+// src/app/api/products/route.ts
 import { createAdminClient } from '@/utils/supabase/server';
 import { NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
@@ -32,7 +32,7 @@ export async function POST(request: Request) {
     // 3. If there are secondary images, insert them now
     if (newSecondaryImageKeys && newSecondaryImageKeys.length > 0) {
       const productId = newProduct.uuid;
-      
+
       const imagesToInsert = newSecondaryImageKeys.map((key: string) => ({
         product_id: productId,
         image_key: key,
@@ -48,15 +48,15 @@ export async function POST(request: Request) {
         // In a real-world scenario, you might want to "roll back" the product creation,
         // but for now, this provides clear feedback.
         return NextResponse.json(
-            { 
+            {
                 error: `Product was created, but failed to add secondary images: ${imagesInsertError.message}`,
                 product: newProduct
-            }, 
+            },
             { status: 207 } // 207 Multi-Status is appropriate here
         );
       }
     }
-    
+
     // 4. Revalidate paths to update the cache
     revalidatePath('/products'); // Rebuilds the main product list
     revalidatePath('/admin'); // Rebuilds the admin dashboard list

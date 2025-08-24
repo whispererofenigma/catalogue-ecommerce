@@ -94,6 +94,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     .order('display_order');
 
   const isCustomizable = product.slug === CUSTOMIZABLE_PRODUCT_SLUG;
+  const availableSizes = product.sizes ? product.sizes.split(',').map((s: string) => s.trim()) : [];
 
   // --- STRUCTURED DATA (JSON-LD) FOR GOOGLE RICH SNIPPETS ---
 
@@ -150,8 +151,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               <CustomizableProductClient />
             ) : (
             <div className="aspect-square relative rounded-lg">
-              
-              <ProductImageGallery 
+
+              <ProductImageGallery
                 mainImageKey={product.image_key}
                 secondaryImages={secondaryImages || []}
               />
@@ -171,6 +172,24 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                 In Stock
               </span>
             </div>
+
+            {availableSizes.length > 0 && (
+              <div className="mt-8">
+                <h2 className="text-sm font-medium text-gray-900">Available Sizes</h2>
+                <div className="mt-4 flex gap-4">
+                  {availableSizes.map((size: string) => (
+                    <p key={size} className="border-b-gray-500 border-b-2">{size}</p>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {product.customisability && !isCustomizable && (
+              <div className="mt-8">
+                <button className="w-full bg-blue-600 s text-white py-2 px-4 rounded-md">Upload Your Design</button>
+              </div>
+            )}
+
 
             <div className="mt-8 pt-6 border-t border-gray-200">
               <h2 className="text-xl font-semibold text-gray-800 mb-2">About this product</h2>

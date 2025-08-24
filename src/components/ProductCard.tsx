@@ -15,7 +15,7 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const imageUrl = product.image_key
-    ? `https://cdn.xponentfunds.in/${product.image_key}` // Construct the full image URL
+    ? `${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${product.image_key}` // Construct the full image URL
     : '/placeholder-image.png'; // A fallback image in your /public folder
 
   return (

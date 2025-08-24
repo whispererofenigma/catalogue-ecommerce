@@ -107,7 +107,7 @@ export default function AdminDashboard() {
                 {products.length > 0 ? products.map((product) => (
                   <tr key={product.uuid}>
                     <td className="px-6 py-4">
-                      {product.image_key ? (<Image src={`https://cdn.xponentfunds.in/${product.image_key}`} alt={product.name} width={50} height={50} className="rounded-md object-cover h-12 w-12"/>) : <div className="h-12 w-12 bg-gray-200 rounded-md"/>}
+                      {product.image_key ? (<Image src={`${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${product.image_key}`} alt={product.name} width={50} height={50} className="rounded-md object-cover h-12 w-12"/>) : <div className="h-12 w-12 bg-gray-200 rounded-md"/>}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{product.name}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{product.categories?.name || 'N/A'}</td>
