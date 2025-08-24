@@ -54,8 +54,8 @@ export default function Navbar() {
 
           {/* Logo Section */}
           <div className="flex flex-shrink-0 items-center">
-            <img src="/logo.svg" alt="Design Anything Online Logo" className='h-14 w-14' />
-            <Link href="/" className={`${ephesis.className} text-2xl`}>
+            <img src="/logo.svg" alt="Design Anything Online Logo" className='h-12 w-12 md:h-14 md:w-14' />
+            <Link href="/" className={`${ephesis.className} text-xl md:2xl `}>
               Design Anything Online
             </Link>
           </div>
