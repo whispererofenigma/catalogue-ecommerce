@@ -22,13 +22,13 @@ export default function CategoryCard({ category }: CategoryCardProps) {
       className="block rounded-lg p-6 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 bg-white"
     >
 
-      <div className="relative w-full h-60">
+      <div className="relative aspect-square w-full p-2">
         <Image
           src={thumbUrl}
           alt={category.name}
-          fill
-          style={{ objectFit: 'cover' }}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        
+          style={{ objectFit: 'cover', objectPosition: 'center',}}
+          
         />
       </div>
 

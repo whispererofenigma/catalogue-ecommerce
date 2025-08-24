@@ -27,7 +27,7 @@ export default function PrivacyPage() {
           <div className="prose prose-lg max-w-none text-gray-700 prose-headings:text-gray-800 prose-a:text-blue-600 hover:prose-a:text-blue-800">
             <h2>1. Introduction</h2>
             <p>
-              Welcome to Xponent ("we," "our," or "us"). We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website, `[www.yourdomain.com]`, including any other media form, media channel, mobile website, or mobile application related or connected thereto (collectively, the "Site"). Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the site.
+              Welcome to Desing Anything Online("we," "our," or "us"). We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website, `[www.yourdomain.com]`, including any other media form, media channel, mobile website, or mobile application related or connected thereto (collectively, the "Site"). Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the site.
             </p>
 
             <hr className="my-8" />
@@ -45,9 +45,7 @@ export default function PrivacyPage() {
                 <li>
                     <strong>Customization Content:</strong> For customizable products, you may send us images, text, or other content ("User Content") directly via WhatsApp. This User Content is used solely for the purpose of creating your custom product.
                 </li>
-                <li>
-                    <strong>Admin Account Information:</strong> To manage this website, administrators must create an account, for which we collect an email address and a hashed password.
-                </li>
+                
             </ul>
             
             <h3>B. Information We Collect Automatically</h3>
@@ -80,10 +78,10 @@ export default function PrivacyPage() {
               If you have questions or comments about this Privacy Policy, please contact us at:
             </p>
             <div className="bg-gray-100 p-4 rounded-md not-prose">
-              <p className="font-semibold">[Your Company Name]</p>
-              <p>[Your Company Address]</p>
-              <a href="mailto:[your-client's-contact-email@example.com]" className="text-blue-600 hover:underline">
-                [your-client's-contact-email@example.com]
+              <p className="font-semibold">Design Anything Online</p>
+              <p>Kolkata, West Bengal, India</p>
+              <a href="mailto:support@designanything.online" className="text-blue-600 hover:underline">
+                support@designanything.online
               </a>
             </div>
           </div>

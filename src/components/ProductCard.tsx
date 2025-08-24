@@ -23,13 +23,13 @@ export default function ProductCard({ product }: ProductCardProps) {
       href={`/products/${product.slug}`}
       className="block rounded-lg overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 bg-white"
     >
-      <div className="relative w-full h-60">
+      <div className="relative aspect-square w-full">
         <Image
           src={imageUrl}
           alt={product.name}
-          fill
-          style={{ objectFit: 'cover', objectPosition: 'start' }}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          
+          style={{ objectFit: 'cover', objectPosition: 'center'}}
+          
         />
       </div>
       <div className="p-4">

@@ -2,21 +2,22 @@
 import { createClient } from "@/utils/supabase/server";
 import CategoryCard from "@/components/CategoryCard";
 
+
+async function getFeaturedCategories() {
+  const supabase = await createClient();
+  const { data: categories } = await supabase
+    .from('categories')
+    .select('uuid, name, slug, description, thumbnail_key')
+    .limit(3);
+  return categories || [];
+}
+
+
 // This is a server component, so we can make it async and fetch data directly.
 export default async function CategoriesPage() {
-  const supabase = await createClient();
+  const categories = await getFeaturedCategories();
 
-  const { data: categories, error } = await supabase
-    .from('categories')
-    // --- THIS LINE IS NOW CORRECTED ---
-    .select('uuid, name, slug, description')
-    .order('name', { ascending: true });
-
-  if (error) {
-    console.error("Error fetching categories:", error);
-    // You could return a more user-friendly error message here
-    return <p>Error loading categories.</p>;
-  }
+  
 
   return (
     <main className="container mx-auto px-4 py-8">

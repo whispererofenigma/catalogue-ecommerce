@@ -1,10 +1,14 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import { useState, useRef } from 'react';
 import Link from 'next/link';
+import { Ephesis } from 'next/font/google';
 
 import Search from './Search';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';// <-- 1. Import the custom hook
+
+const ephesis = Ephesis({ weight: ["400"], subsets: ["latin"] });
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -49,9 +53,10 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
 
           {/* Logo Section */}
-          <div className="flex-shrink-0">
-            <Link href="/" className="text-2xl font-bold text-blue-600">
-              Xponent
+          <div className="flex flex-shrink-0 items-center">
+            <img src="/logo.svg" alt="Design Anything Online Logo" className='h-14 w-14' />
+            <Link href="/" className={`${ephesis.className} text-2xl`}>
+              Design Anything Online
             </Link>
           </div>
 
@@ -68,9 +73,9 @@ export default function Navbar() {
                 {link.name}
               </Link>
             ))}
-            <Link href="/admin" className="bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300">
+            {/* <Link href="/admin" className="bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300">
               Admin
-            </Link>
+            </Link> */}
           </div>
 
           {/* Mobile Menu Buttons */}
@@ -131,13 +136,13 @@ export default function Navbar() {
               {link.name}
             </Link>
           ))}
-          <Link 
+          {/* <Link 
             href="/admin" 
             className="bg-blue-600 text-white hover:bg-blue-700 block px-3 py-2 rounded-md text-base font-medium"
             onClick={closeAllMenus} // <-- Close menu on link click
           >
             Admin Panel
-          </Link>
+          </Link> */}
         </div>
       </div>
     </nav>

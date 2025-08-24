@@ -19,6 +19,7 @@ export default async function HomePage() {
   const featuredCategories = await getFeaturedCategories();
   
   return (
+    
     <main>
       <Hero />
       <FeaturedProducts />

@@ -27,7 +27,7 @@ export default function TermsPage() {
           <div className="prose prose-lg max-w-none text-gray-700 prose-headings:text-gray-800 prose-a:text-blue-600 hover:prose-a:text-blue-800">
             <h2>1. Agreement to Terms</h2>
             <p>
-              Welcome to Xponent ("Company", "we", "us", or "our"). These Terms of Service constitute a legally binding agreement made between you, whether personally or on behalf of an entity (“you”) and `[Your Company Name]`, concerning your access to and use of the `[www.yourwebsite.com]` website as well as any other media form, media channel, mobile website or mobile application related, linked, or otherwise connected thereto (collectively, the “Site”).
+              Welcome to Design Anything Online ("Company", "we", "us", or "our"). These Terms of Service constitute a legally binding agreement made between you, whether personally or on behalf of an entity (“you”) and `[Your Company Name]`, concerning your access to and use of the `[www.yourwebsite.com]` website as well as any other media form, media channel, mobile website or mobile application related, linked, or otherwise connected thereto (collectively, the “Site”).
             </p>
             <p>
               By accessing the Site, you agree to be bound by these Terms of Service. If you do not agree with all of these terms, then you are expressly prohibited from using the Site and you must discontinue use immediately.
@@ -98,10 +98,10 @@ export default function TermsPage() {
               In order to resolve a complaint regarding the Site or to receive further information regarding use of the Site, please contact us at:
             </p>
             <div className="bg-gray-100 p-4 rounded-md not-prose">
-              <p className="font-semibold">[Your Company Name]</p>
-              <p>[Your Company Address]</p>
-              <a href="mailto:[your-client's-contact-email@example.com]" className="text-blue-600 hover:underline">
-                [your-client's-contact-email@example.com]
+              <p className="font-semibold">Design Anything Online</p>
+              <p>Kolkata, West Bengal, India</p>
+              <a href="mailto:support@designanything.online" className="text-blue-600 hover:underline">
+                support@designanything.online
               </a>
             </div>
           </div>

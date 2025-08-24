@@ -7,6 +7,7 @@ import Footer from "@/components/Footer"; // Import your Navbar
 
 const inter = Inter({ subsets: ["latin"] });
 
+
 // You can have default metadata here, which pages can override.
 export const metadata: Metadata = {
   title: "Xponent - Your E-commerce Store", // A good default title
@@ -26,7 +27,7 @@ export default function RootLayout({
         from this file and the specific page being rendered.
       */}
       <body className={inter.className}>
-        <Navbar />
+        <Navbar/>
         {/* The 'children' prop renders the content of your active page (e.g., ProductPage) */}
         <main >{children}</main>
         <Footer />

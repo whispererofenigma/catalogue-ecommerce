@@ -19,7 +19,7 @@ const securityHeaders = [
       default-src 'self';
       script-src 'self' 'unsafe-eval' 'unsafe-inline';
       style-src 'self' 'unsafe-inline';
-      img-src 'self' data: https://cdn.xponentfunds.in;
+      img-src 'self' data: https://cdn.designanything.online;
       font-src 'self';
       connect-src 'self' https://*.supabase.co https://*.r2.cloudflarestorage.com;
       frame-src 'self';
@@ -41,6 +41,12 @@ const nextConfig: NextConfig = {
         {
             protocol: 'https',
             hostname: 'cdn.xponentfunds.in',
+            port: '',
+            pathname: '/**',
+        },
+        {
+            protocol: 'https',
+            hostname: 'cdn.designanything.online',
             port: '',
             pathname: '/**',
         },

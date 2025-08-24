@@ -2,12 +2,13 @@
 import Link from 'next/link';
 
 export default function Hero() {
+  const heroImg = `${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/hero-bg.jpg`
   return (
     <div className="relative bg-gray-900 text-white">
       {/* You can replace this with a high-quality background image */}
       <div 
         className="absolute inset-0 bg-cover bg-center opacity-40" 
-        style={{ backgroundImage: "url('/hero_bg.jpg')" }}
+        style={{ backgroundImage: `url(${heroImg})` }}
       ></div>
       
       <div className="relative container mx-auto px-4 py-24 md:py-32 text-center">
@@ -20,7 +21,7 @@ export default function Hero() {
         <div className="mt-8">
           <Link 
             href="/products" 
-            className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg text-lg transition-transform hover:scale-105"
+            className="inline-block bg-gradient-to-r  from-emerald-400 via-blue-400 to-pink-300   text-white font-bold py-3 px-8 rounded-lg text-lg transition-transform hover:scale-105"
           >
             Shop All Products
           </Link>

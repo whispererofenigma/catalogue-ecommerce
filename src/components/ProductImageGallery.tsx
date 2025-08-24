@@ -38,7 +38,7 @@ export default function ProductImageGallery({ mainImageKey, secondaryImages }: P
   if (allImages.length === 0) {
     return (
       <div className="w-full aspect-square relative rounded-lg">
-        <Image src={placeholderUrl} alt="Product image placeholder" fill sizes="100vw" />
+        <Image src={placeholderUrl} alt="Product image placeholder" />
       </div>
     );
   }
@@ -59,9 +59,8 @@ export default function ProductImageGallery({ mainImageKey, secondaryImages }: P
             >
               <Image
                 src={`${r2PublicUrl}/${image_key}`}
-                alt="Product thumbnail"
-                fill
-                sizes="(max-width: 768px) 20vw, 10vw"
+                alt="Product thumbnail"              
+                
                 className="object-cover rounded-md"
               />
             </button>
@@ -75,9 +74,8 @@ export default function ProductImageGallery({ mainImageKey, secondaryImages }: P
           <Image
             src={activeImageUrl}
             alt="Main product view"
-            fill
-            sizes="(max-width: 768px) 100vw, 50vw"
-            priority
+            
+            
             className="object-cover transition-opacity duration-300"
             key={activeImageKey} // Force re-render on image change for smooth transition
           />
