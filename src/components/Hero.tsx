@@ -21,7 +21,7 @@ export default function Hero() {
         <div className="mt-8">
           <Link 
             href="/products" 
-            className="inline-block bg-gradient-to-r  from-emerald-400 via-blue-400 to-pink-300   text-white font-bold py-3 px-8 rounded-lg text-lg transition-transform hover:scale-105"
+            className="inline-block bg-gradient-to-r  from-emerald-400 to-blue-400  text-white font-bold py-3 px-8 rounded-lg text-lg transition-transform hover:scale-105"
           >
             Shop All Products
           </Link>
