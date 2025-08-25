@@ -3,8 +3,8 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Terms of Service | Xponent',
-  description: 'Read the terms and conditions for using the Xponent website and services.',
+  title: 'Terms of Service | Design Anything Online',
+  description: 'Read the terms and conditions for using the Design Anything Onlice website and services.',
 };
 
 export default function TermsPage() {

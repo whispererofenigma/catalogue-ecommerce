@@ -94,7 +94,7 @@ export default function CategoryForm({ initialData = null, isEditing = false }: 
         {initialData?.thumbnail_key && (
             <div className="mt-2">
                 <p className="text-sm text-gray-500 mb-2">Current Thumbnail:</p>
-                <Image src={`https://cdn.xponentfunds.in/${initialData.thumbnail_key}`} alt="Current thumbnail" width={100} height={100} className="rounded-md object-cover"/>
+                <Image src={`${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${initialData.thumbnail_key}`} alt="Current thumbnail" width={100} height={100} className="rounded-md object-cover"/>
             </div>
         )}
         <input id="thumbnail" type="file" accept="image/*" onChange={(e) => setThumbnailFile(e.target.files ? e.target.files[0] : null)} className="mt-2 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"/>

@@ -3,8 +3,8 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | Xponent',
-  description: 'Learn how Xponent collects, uses, and protects your personal data.',
+  title: 'Privacy Policy | Design Anything Onlince',
+  description: 'Learn how we collects, use, and protect your personal data.',
 };
 
 export default function PrivacyPage() {

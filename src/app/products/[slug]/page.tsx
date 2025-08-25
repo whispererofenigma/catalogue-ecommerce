@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     return { title: 'Product Not Found' };
   }
 
-  const siteName = "Xponent"; // Replace with your brand/site name
+  const siteName = "Design Anything Onlice"; // Replace with your brand/site name
   const productImageUrl = product.image_key
     ? `${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${product.image_key}`
     : 'https://placehold.co/1200x630/e2e8f0/94a3b8?text=Image';
@@ -112,7 +112,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     description: product.description,
     image: allImageUrls,
     sku: product.uuid,
-    brand: { '@type': 'Brand', name: 'Xponent' }, // Replace with your brand
+    brand: { '@type': 'Brand', name: 'Design Anything Online' }, // Replace with your brand
     offers: {
       '@type': 'Offer',
       url: `${process.env.NEXT_PUBLIC_SITE_URL}/products/${product.slug}`, // Use your full production URL

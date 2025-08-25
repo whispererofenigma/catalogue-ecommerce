@@ -133,7 +133,7 @@ export default function AdminDashboard() {
             {categories.map((category) => (
               <li key={category.uuid} className="py-3 flex justify-between items-center">
                 <div className="flex items-center gap-4">
-                  {category.thumbnail_key ? (<Image src={`https://cdn.xponentfunds.in/${category.thumbnail_key}`} alt={category.name} width={40} height={40} className="rounded-md object-cover h-10 w-10"/>) : <div className="h-10 w-10 bg-gray-200 rounded-md"/>}
+                  {category.thumbnail_key ? (<Image src={`${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${category.thumbnail_key}`} alt={category.name} width={40} height={40} className="rounded-md object-cover h-10 w-10"/>) : <div className="h-10 w-10 bg-gray-200 rounded-md"/>}
                   <span className="font-medium text-gray-900">{category.name}</span>
                 </div>
                 <div className="space-x-4">

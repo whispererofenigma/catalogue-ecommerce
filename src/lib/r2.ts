@@ -5,7 +5,7 @@ import { createId } from '@paralleldrive/cuid2';
 
 const r2 = new S3Client({
   region: "auto",
-  endpoint: `https://b3d0f9f85ba704c59e914d55b95a33b7.r2.cloudflarestorage.com`,
+  endpoint: `https://dac6ea4e96541c33aec746c6a1ed8dd3.r2.cloudflarestorage.com`,
   credentials: {
     accessKeyId: process.env.CLOUDFLARE_ACCESS_KEY_ID!,
     secretAccessKey: process.env.CLOUDFLARE_SECRET_ACCESS_KEY!,

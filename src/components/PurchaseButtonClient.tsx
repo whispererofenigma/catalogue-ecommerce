@@ -59,10 +59,11 @@ export default function PurchaseButtonClient({
   };
 
   const uploadFile = async (file: File | Blob, fileType: string): Promise<string> => {
+    const prefix = "user"
     const presignedUrlResponse = await fetch('/api/r2/presigned-url', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fileType }),
+      body: JSON.stringify({ fileType, prefix }),
     });
     if (!presignedUrlResponse.ok) throw new Error('Failed to get presigned URL.');
     const { presignedUrl, objectKey } = await presignedUrlResponse.json();
