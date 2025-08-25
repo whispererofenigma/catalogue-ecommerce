@@ -61,7 +61,7 @@ export default function ProductImageGallery({ mainImageKey, secondaryImages }: P
                 src={`${r2PublicUrl}/${image_key}`}
                 alt="Product thumbnail"              
                 
-                className="object-cover rounded-md"
+                className="object-cover object-center rounded-md h-full w-full"
               />
             </button>
           ))}
@@ -76,7 +76,7 @@ export default function ProductImageGallery({ mainImageKey, secondaryImages }: P
             alt={"Main product view"}
             
             
-            className="object-cover h-full transition-opacity duration-300"
+            className="object-cover object-center h-full w-full transition-opacity duration-300"
             key={activeImageKey} // Force re-render on image change for smooth transition
           />
         </div>

@@ -28,13 +28,13 @@ export default function ProductCard({ product }: ProductCardProps) {
           src={imageUrl}
           alt={product.name}
           
-          style={{ objectFit: 'cover', objectPosition: 'center'}}
+          style={{ objectFit: 'cover', objectPosition: 'center',  width: '100%', height: '100%'}}
           
         />
       </div>
       <div className="p-4">
         <h3 className="font-semibold text-lg text-gray-800 truncate">{product.name}</h3>
-        <p className="text-gray-600 mt-1">₹{product.price.toFixed(2)}</p>
+        <p className="text-green-600 mt-1">₹{product.price.toFixed(2)}</p>
       </div>
     </Link>
   );

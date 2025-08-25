@@ -19,24 +19,26 @@ export default function CategoryCard({ category }: CategoryCardProps) {
   return (
     <Link
       href={`/categories/${category.slug}`}
-      className="block rounded-lg overflow-hidden p-6 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 bg-white"
+      className="block rounded-lg overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 bg-white"
     >
 
-      <div className="relative aspect-square w-full p-2">
+      <div className="relative aspect-square w-full">
         <Image
           src={thumbUrl}
           alt={category.name}
         
-          style={{ objectFit: 'cover', objectPosition: 'center',}}
+          style={{ objectFit: 'cover', objectPosition: 'center', width: '100%', height: '100%'}}
           
         />
       </div>
 
 
-      <h2 className="text-2xl font-bold text-gray-800">{category.name}</h2>
-      {category.description && (
-        <p className="mt-2 text-gray-600">{category.description}</p>
-      )}
+      <div className="w-full p-4">
+        <h2 className="text-2xl font-bold text-gray-800">{category.name}</h2>
+        {category.description && (
+          <p className="mt-2 text-gray-600">{category.description}</p>
+        )}
+      </div>
     </Link>
   );
 }
