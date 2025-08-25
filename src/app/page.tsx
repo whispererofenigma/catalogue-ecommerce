@@ -17,8 +17,8 @@ async function getFeaturedCategories() {
 }
 
 export const metadata = {
-  title: "Xponent | Your Imagination, Our Creation",
-  description: "Shop high-quality customizable products at Xponent. From custom T-shirts and coffee mugs to photo frames, we bring your vision to life. Based in Kolkata, serving creatives everywhere.",
+  title: "Design Anything Online | Enter the Realm of Customisation",
+  description: "Shop high-quality customizable products at Design Anything Online. From custom T-shirts and coffee mugs to photo frames, we bring your vision to life. Based in Kolkata, serving creatives everywhere.",
   
   // Define a canonical URL for the homepage
   alternates: {
