@@ -7,8 +7,10 @@ async function getFeaturedCategories() {
   const supabase = await createClient();
   const { data: categories } = await supabase
     .from('categories')
-    .select('uuid, name, slug, description, thumbnail_key');
-    
+    .select('uuid, name, slug, description, thumbnail_key')
+    .order('priority', { ascending: true, nullsFirst: false }) // or nullsLast: true
+    .order('last_updated', { ascending: false }); // Secondary sort for non-prioritized items
+
   return categories || [];
 }
 
@@ -17,12 +19,12 @@ async function getFeaturedCategories() {
 export default async function CategoriesPage() {
   const categories = await getFeaturedCategories();
 
-  
+
 
   return (
     <main className="container mx-auto px-4 py-8">
       <h1 className="text-4xl font-extrabold text-gray-900 mb-8">All Categories</h1>
-      
+
       {categories && categories.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {categories.map((category) => (

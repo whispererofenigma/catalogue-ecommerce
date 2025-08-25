@@ -11,15 +11,17 @@ async function getFeaturedCategories() {
   const { data: categories } = await supabase
     .from('categories')
     .select('uuid, name, slug, description, thumbnail_key')
-    .limit(3);
+    .order('priority', { ascending: true, nullsFirst: false }) // or nullsLast: true
+    .order('last_updated', { ascending: false }) // Secondary sort for non-prioritized items
+    .limit(4);
   return categories || [];
 }
 
 export default async function HomePage() {
   const featuredCategories = await getFeaturedCategories();
-  
+
   return (
-    
+
     <main>
       <Hero />
       <FeaturedProducts />

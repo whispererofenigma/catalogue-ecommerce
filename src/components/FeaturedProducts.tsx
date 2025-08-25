@@ -11,7 +11,8 @@ export default async function FeaturedProducts() {
   const { data: products } = await supabase
     .from('products')
     .select('name, slug, price, image_key')
-    .order('last_updated', { ascending: false })
+    .order('priority', { ascending: true, nullsFirst: false }) // or nullsLast: true
+    .order('last_updated', { ascending: false }) // Secondary sort for non-prioritized items
     .limit(4);
 
   return (
