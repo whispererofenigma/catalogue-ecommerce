@@ -184,11 +184,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               </div>
             )}
 
-            {product.customisability && !isCustomizable && (
-              <div className="mt-8">
-                <button className="w-full bg-blue-600 s text-white py-2 px-4 rounded-md">Upload Your Design</button>
-              </div>
-            )}
+            
 
 
             <div className="mt-8 pt-6 border-t border-gray-200">

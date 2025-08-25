@@ -70,13 +70,13 @@ export default function ProductImageGallery({ mainImageKey, secondaryImages }: P
       
       {/* Main Image Column */}
       <div className="md:col-span-4 order-1 md:order-2">
-        <div className="aspect-square relative bg-gray-100 rounded-lg">
+        <div className="aspect-square max-h-[60vh] relative bg-gray-100 rounded-lg">
           <Image
             src={activeImageUrl}
             alt="Main product view"
             
             
-            className="object-cover transition-opacity duration-300"
+            className="object-cover h-full transition-opacity duration-300"
             key={activeImageKey} // Force re-render on image change for smooth transition
           />
         </div>
