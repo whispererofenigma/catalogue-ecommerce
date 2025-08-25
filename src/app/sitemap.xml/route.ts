@@ -12,20 +12,20 @@ export async function GET() {
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       <url>
         <loc>${process.env.NEXT_PUBLIC_SITE_URL}</loc>
-        <lastmod>${new Date().toISOString()}</lastmod>
+        <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
       </url>
       <url>
         <loc>${process.env.NEXT_PUBLIC_SITE_URL}/products</loc>
-        <lastmod>${new Date().toISOString()}</lastmod>
+        <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
       </url>
       <url>
         <loc>${process.env.NEXT_PUBLIC_SITE_URL}/categories</loc>
-        <lastmod>${new Date().toISOString()}</lastmod>
+        <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
       </url>
       ${products?.map(({ slug, last_updated }) => `
         <url>
           <loc>${process.env.NEXT_PUBLIC_SITE_URL}/products/${slug}</loc>
-          <lastmod>${last_updated}</lastmod>
+          <lastmod>${last_updated.split('T')[0]}</lastmod>
         </url>
       `).join('')}
     </urlset>
