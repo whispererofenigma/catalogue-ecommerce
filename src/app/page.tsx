@@ -16,7 +16,7 @@ async function getFeaturedCategories() {
   return categories || [];
 }
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "Xponent | Your Imagination, Our Creation",
   description: "Shop high-quality customizable products at Xponent. From custom T-shirts and coffee mugs to photo frames, we bring your vision to life. Based in Kolkata, serving creatives everywhere.",
   
