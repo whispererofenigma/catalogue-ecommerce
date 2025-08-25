@@ -1,6 +1,7 @@
 // app/api/categories/route.ts
 import { createAdminClient } from '@/utils/supabase/server';
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 
 export async function POST(request: Request) {
   const supabase = await createAdminClient();
@@ -15,10 +16,13 @@ export async function POST(request: Request) {
 
   if (error) {
     if (error.code === '23505') { // unique_violation on name or slug
-        return NextResponse.json({ error: 'A category with this name already exists.' }, { status: 409 });
+      return NextResponse.json({ error: 'A category with this name already exists.' }, { status: 409 });
     }
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
+
+  revalidatePath('/categories'); // Rebuilds the main categories list
+  revalidatePath('/admin'); // Rebuilds the admin dashboard list
 
   return NextResponse.json(data);
 }

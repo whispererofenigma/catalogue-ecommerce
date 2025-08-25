@@ -2,6 +2,7 @@
 import { createAdminClient } from '@/utils/supabase/server';
 import { NextResponse } from 'next/server';
 import { deleteR2Object } from '@/lib/r2'; // We'll reuse our R2 helper
+import { revalidatePath } from 'next/cache';
 
 export async function PUT(request: Request, { params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
@@ -10,11 +11,11 @@ export async function PUT(request: Request, { params }: { params: Promise<{ slug
     const { oldThumbnailKey, ...updateData } = categoryData;
 
     const { data, error } = await supabase
-      .from('categories')
-      .update(updateData) // name, description, thumbnail_key
-      .eq('slug', slug)
-      .select()
-      .single();
+        .from('categories')
+        .update(updateData) // name, description, thumbnail_key
+        .eq('slug', slug)
+        .select()
+        .single();
 
     if (error) {
         return NextResponse.json({ error: error.message }, { status: 500 });
@@ -24,6 +25,9 @@ export async function PUT(request: Request, { params }: { params: Promise<{ slug
     if (oldThumbnailKey) {
         await deleteR2Object(oldThumbnailKey);
     }
+
+    revalidatePath(`/categories/${slug}`); // Rebuilds the main product list
+    revalidatePath('/admin'); // Rebuilds the admin dashboard list
 
     return NextResponse.json(data);
 }
@@ -54,6 +58,9 @@ export async function DELETE(_request: Request, { params }: { params: Promise<{ 
     if (category.thumbnail_key) {
         await deleteR2Object(category.thumbnail_key);
     }
+
+    revalidatePath('/categories'); // Rebuilds the main product list
+    revalidatePath('/admin'); // Rebuilds the admin dashboard list
 
     return NextResponse.json({ message: 'Category deleted successfully.' });
 }

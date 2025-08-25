@@ -31,11 +31,11 @@ export async function PUT(request: Request, { params }: { params: Promise<{ slug
         // --- Step 1: Update the core product details ---
         // The database trigger will automatically handle slug updates if the name changes.
         const { data: updatedProduct, error: productUpdateError } = await supabase
-          .from('products')
-          .update(productData)
-          .eq('slug', slug)
-          .select('uuid') // Select the uuid for the next steps
-          .single();
+            .from('products')
+            .update(productData)
+            .eq('slug', slug)
+            .select('uuid') // Select the uuid for the next steps
+            .single();
 
         if (productUpdateError) {
             console.error('Error updating product:', productUpdateError.message);
@@ -92,10 +92,13 @@ export async function PUT(request: Request, { params }: { params: Promise<{ slug
             );
         }
 
+        revalidatePath(`/products/${slug}`); // Rebuilds the main product list
+        revalidatePath('/admin'); // Rebuilds the admin dashboard list
+
         // --- Success ---
         return NextResponse.json({ message: 'Product updated successfully', product: updatedProduct });
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (e: any) {
         console.error('An unexpected error occurred:', e.message);
         return NextResponse.json({ error: 'An unexpected error occurred while processing the request.' }, { status: 500 });
@@ -180,7 +183,7 @@ export async function DELETE(_request: Request, { params }: { params: Promise<{ 
 
         return NextResponse.json({ message: 'Product and all associated images deleted successfully.' });
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (e: any) {
         console.error('An unexpected error occurred during deletion:', e.message);
         return NextResponse.json({ error: 'An unexpected error occurred.' }, { status: 500 });
