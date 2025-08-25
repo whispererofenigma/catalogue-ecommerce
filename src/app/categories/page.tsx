@@ -7,8 +7,8 @@ async function getFeaturedCategories() {
   const supabase = await createClient();
   const { data: categories } = await supabase
     .from('categories')
-    .select('uuid, name, slug, description, thumbnail_key')
-    .limit(3);
+    .select('uuid, name, slug, description, thumbnail_key');
+    
   return categories || [];
 }
 

@@ -53,7 +53,7 @@ export default function ProductImageGallery({ mainImageKey, secondaryImages }: P
               key={image_key}
               onClick={() => setActiveImageKey(image_key)}
               // Set a fixed width/height for mobile, and let flexbox handle desktop
-              className={`w-16 h-16 md:w-full md:h-auto aspect-square rounded-md relative focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 flex-shrink-0 ${
+              className={`w-16 h-16 aspect-square rounded-md relative focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 flex-shrink-0 ${
                 activeImageKey === image_key ? 'ring-2 ring-blue-600' : 'ring-1 ring-gray-300'
               }`}
             >
@@ -70,10 +70,10 @@ export default function ProductImageGallery({ mainImageKey, secondaryImages }: P
       
       {/* Main Image Column */}
       <div className="md:col-span-4 order-1 md:order-2">
-        <div className="aspect-square max-h-[60vh] relative bg-gray-100 rounded-lg">
+        <div className="aspect-square overflow-hidden max-h-[60vh] relative bg-gray-100 rounded-lg">
           <Image
             src={activeImageUrl}
-            alt="Main product view"
+            alt={"Main product view"}
             
             
             className="object-cover h-full transition-opacity duration-300"
