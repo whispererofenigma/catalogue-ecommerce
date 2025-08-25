@@ -26,7 +26,7 @@ export default function Loading() {
   // It's helpful to mirror the final page's layout for a seamless transition.
   return (
     <main className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-extrabold text-gray-900 mb-8">All Products</h1>
+    <text className="text-4xl font-extrabold text-gray-900 mb-8">All Products</text>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         {/* Render a number of skeleton cards that matches your default page size.
