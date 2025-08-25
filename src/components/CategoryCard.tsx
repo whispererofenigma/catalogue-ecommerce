@@ -19,7 +19,7 @@ export default function CategoryCard({ category }: CategoryCardProps) {
   return (
     <Link
       href={`/categories/${category.slug}`}
-      className="block rounded-lg p-6 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 bg-white"
+      className="block rounded-lg overflow-hidden p-6 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 bg-white"
     >
 
       <div className="relative aspect-square w-full p-2">

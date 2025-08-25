@@ -9,7 +9,7 @@ async function getFeaturedCategories() {
     .from('categories')
     .select('uuid, name, slug, description, thumbnail_key')
     .order('priority', { ascending: true, nullsFirst: false }) // or nullsLast: true
-    .order('last_updated', { ascending: false }); // Secondary sort for non-prioritized items
+    
 
   return categories || [];
 }
