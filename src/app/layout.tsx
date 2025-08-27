@@ -26,10 +26,10 @@ export default function RootLayout({
         Next.js automatically creates it and populates it with the metadata
         from this file and the specific page being rendered.
       */}
-      <body className={inter.className}>
+      <body className={inter.className} >
         <Navbar/>
         {/* The 'children' prop renders the content of your active page (e.g., ProductPage) */}
-        <main >{children}</main>
+        {children}
         <Footer />
       </body>
     </html>

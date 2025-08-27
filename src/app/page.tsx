@@ -57,7 +57,7 @@ export default async function HomePage() {
 
   return (
 
-    <main>
+    <main className="bg-gray-200">
       <Hero />
       <FeaturedProducts />
 

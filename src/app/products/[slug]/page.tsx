@@ -6,10 +6,44 @@ import { Metadata } from 'next';
 import PurchaseButtonClient from '@/components/PurchaseButtonClient';
 import CustomizableProductClient from '@/components/CustomizableProductClient';
 import ProductImageGallery from '@/components/ProductImageGallery';
+import ReviewsSection from '@/components/ReviewsSection';
 
 // --- DYNAMIC METADATA FUNCTION (FOR SEO) ---
 // This function runs on the server to generate metadata for the <head> tag.
 // It uses your existing data fetching logic.
+async function getProductAndReviews(slug: string) {
+
+
+  // 1. Fetch the product first, including its category and assets
+  const { data: product } = await supabase
+    .from('products')
+    .select('*')
+    .eq('slug', slug)
+    .single();
+
+  // 2. If no product, check for a redirect before giving up.
+  if (!product) {
+    const { data: redirectData } = await supabase.from('slug_redirects').select('product_uuid').eq('old_slug', slug).single();
+    if (redirectData) {
+      const { data: redirectedProduct } = await supabase.from('products').select('slug').eq('uuid', redirectData.product_uuid).single();
+      if (redirectedProduct) {
+        redirect(`/products/${redirectedProduct.slug}`);
+      }
+    }
+    return { product: null, reviews: [] }; // Return null if no product and no redirect
+  }
+
+  // 3. If a product was found, fetch its reviews.
+  const { data: reviews } = await supabase
+    .from('reviews')
+    .select(`*, review_images ( uuid, image_key )`)
+    .eq('product_id', product.uuid)
+    .order('created_at', { ascending: false });
+
+  return { product, reviews: reviews || [] };
+}
+
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const { data: product } = await supabase.from('products').select('*').eq('slug', slug).single();
@@ -74,6 +108,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     .select('*')
     .eq('slug', (await params).slug)
     .single();
+  const { reviews } = await getProductAndReviews(slug);
 
   if (!product) {
     const { data: redirectData } = await supabase.from('slug_redirects').select('product_uuid').eq('old_slug', slug).single();
@@ -99,9 +134,9 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   // --- STRUCTURED DATA (JSON-LD) FOR GOOGLE RICH SNIPPETS ---
 
   const allImageUrls = [
-      product.image_key,
-      ...(secondaryImages?.map(img => img.image_key) || [])
-    ]
+    product.image_key,
+    ...(secondaryImages?.map(img => img.image_key) || [])
+  ]
     .filter(Boolean)
     .map(key => `${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${key}`);
 
@@ -150,13 +185,13 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               // If it's the special product, render the Client Component
               <CustomizableProductClient />
             ) : (
-            <div className="aspect-square relative rounded-lg">
+              <div className="aspect-square relative rounded-lg">
 
-              <ProductImageGallery
-                mainImageKey={product.image_key}
-                secondaryImages={secondaryImages || []}
-              />
-            </div>)}
+                <ProductImageGallery
+                  mainImageKey={product.image_key}
+                  secondaryImages={secondaryImages || []}
+                />
+              </div>)}
             {/* A placeholder for a future multi-image thumbnail gallery */}
           </div>
 
@@ -184,7 +219,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               </div>
             )}
 
-            
+
 
 
             <div className="mt-8 pt-6 border-t border-gray-200">
@@ -199,6 +234,9 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             </div>
           </div>
         </div>
+          <div className="mt-16 pt-6">
+            <ReviewsSection reviews={reviews} productName={product.name} />
+          </div>
       </main>
     </>
   );

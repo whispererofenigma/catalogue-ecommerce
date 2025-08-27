@@ -55,7 +55,7 @@ export default function CustomizableProductClient() {
                         </div>
 
                         {/* The Interactive Controls */}
-                        <div className="rounded-lg  bg-gray-50 p-4 w-full shadow-md">
+                        <div className="rounded-lg max-w-[60vh] bg-gray-50 p-4 w-full shadow-md">
                             <div>
                                 <label htmlFor="shirtColor" className="mb-2 block text-sm font-medium text-gray-700">
                                     T-Shirt Color

@@ -65,15 +65,18 @@ export default function AdminDashboard() {
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <h1 className="text-4xl font-extrabold text-gray-900">Admin Dashboard</h1>
-        <div className="flex gap-4">
+        <div className="flex flex-wrap gap-4">
             <Link href="/admin/products/new" className="bg-blue-600 text-white hover:bg-blue-700 px-5 py-2 rounded-lg font-semibold shadow-sm">
               + Add New Product
             </Link>
             <Link href="/admin/categories/new" className="bg-gray-700 text-white hover:bg-gray-800 px-5 py-2 rounded-lg font-semibold shadow-sm">
               + Add New Category
             </Link>
+            <Link href="/admin/reviews" className="bg-green-500 text-white hover:bg-green-700 px-5 py-2 rounded-lg font-semibold shadow-sm">
+              + Add New Review
+            </Link>
             <form action={signOut}>
-                <button className="bg-red-500 text-white hover:bg-red-600 px-5 py-2 rounded-lg font-semibold shadow-sm transition-colors duration-300">
+                <button className="bg-red-500 text-white hover:bg-red-800 h-10 px-5 py-2 rounded-lg font-semibold shadow-sm transition-colors duration-300">
                     Logout
                 </button>
             </form>
