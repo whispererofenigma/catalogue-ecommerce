@@ -141,43 +141,78 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     .map(key => `${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${key}`);
   const averageRating = reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length;
   const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Product',
-    name: product.name,
-    description: product.description,
-    image: allImageUrls,
-    sku: product.uuid,
-    brand: { '@type': 'Brand', name: 'Design Anything Online' }, // Replace with your brand
-    offers: {
-      '@type': 'Offer',
-      url: `${process.env.NEXT_PUBLIC_SITE_URL}/products/${product.slug}`, // Use your full production URL
-      priceCurrency: 'INR', // Change to your currency (e.g., USD, EUR)
-      price: product.price,
-      availability: 'https://schema.org/InStock',
-      itemCondition: 'https://schema.org/NewCondition',
-    },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": averageRating.toFixed(1),
-      "reviewCount": reviews.length
-    },
-    "review": reviews.map(r => ({
-      "@type": "Review",
-      "author": {
-        "@type": "Person",
-        "name": r.reviewer_name
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: product.name,
+  description: product.description,
+  image: allImageUrls,
+  sku: product.uuid,
+  brand: { 
+    '@type': 'Brand', 
+    name: 'Design Anything Online' 
+  },
+  offers: {
+    '@type': 'Offer',
+    url: `${process.env.NEXT_PUBLIC_SITE_URL}/products/${product.slug}`,
+    priceCurrency: 'INR',
+    price: product.price,
+    availability: 'https://schema.org/InStock',
+    itemCondition: 'https://schema.org/NewCondition',
+
+    // ✅ Shipping details added here
+    shippingDetails: {
+      '@type': 'OfferShippingDetails',
+      shippingRate: {
+        '@type': 'MonetaryAmount',
+        value: '0',   // free shipping
+        currency: 'INR'
       },
-      "datePublished": r.created_at,
-      "reviewBody": r.body,
-      "name": r.title,
-      "reviewRating": {
-        "@type": "Rating",
-        "ratingValue": r.rating,
-        "bestRating": "5",
-        "worstRating": "1"
+      shippingDestination: {
+        '@type': 'DefinedRegion',
+        addressCountry: 'IN',
+        addressRegion: 'West Bengal',
+        addressLocality: 'Kolkata'
+      },
+      deliveryTime: {
+        '@type': 'ShippingDeliveryTime',
+        handlingTime: {
+          '@type': 'QuantitativeValue',
+          minValue: 0,
+          maxValue: 2,
+          unitCode: 'd'  // days
+        },
+        transitTime: {
+          '@type': 'QuantitativeValue',
+          minValue: 1,
+          maxValue: 5,
+          unitCode: 'd'
+        }
       }
-    }))
-  };
+    }
+  },
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: averageRating.toFixed(1),
+    reviewCount: reviews.length
+  },
+  review: reviews.map(r => ({
+    '@type': 'Review',
+    author: {
+      '@type': 'Person',
+      name: r.reviewer_name
+    },
+    datePublished: r.created_at,
+    reviewBody: r.body,
+    name: r.title,
+    reviewRating: {
+      '@type': 'Rating',
+      ratingValue: r.rating,
+      bestRating: '5',
+      worstRating: '1'
+    }
+  }))
+};
+
 
   return (
     <>
