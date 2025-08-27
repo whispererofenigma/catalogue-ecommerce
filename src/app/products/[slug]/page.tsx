@@ -139,7 +139,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   ]
     .filter(Boolean)
     .map(key => `${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${key}`);
-
+  const averageRating = reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length;
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -156,6 +156,27 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       availability: 'https://schema.org/InStock',
       itemCondition: 'https://schema.org/NewCondition',
     },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": averageRating.toFixed(1),
+      "reviewCount": reviews.length
+    },
+    "review": reviews.map(r => ({
+      "@type": "Review",
+      "author": {
+        "@type": "Person",
+        "name": r.reviewer_name
+      },
+      "datePublished": r.created_at,
+      "reviewBody": r.body,
+      "name": r.title,
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": r.rating,
+        "bestRating": "5",
+        "worstRating": "1"
+      }
+    }))
   };
 
   return (
@@ -234,9 +255,9 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             </div>
           </div>
         </div>
-          <div className="mt-16 pt-6">
-            <ReviewsSection reviews={reviews} productName={product.name} />
-          </div>
+        <div className="mt-16 pt-6">
+          <ReviewsSection reviews={reviews} productName={product.name} />
+        </div>
       </main>
     </>
   );

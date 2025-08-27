@@ -12,7 +12,7 @@ export default function ReviewsSection({ reviews, productName }: ReviewsSectionP
     return (
       <section className="container mx-auto py-12">
         <h2 className="text-2xl font-bold tracking-tight text-gray-900">Customer Reviews</h2>
-        <p className="mt-4 text-gray-500">Be the first to review {`&quot${productName}&quot`}!</p>
+        <p className="mt-4 text-gray-500">Be the first to review {`"${productName}"`}!</p>
       </section>
     );
   }
