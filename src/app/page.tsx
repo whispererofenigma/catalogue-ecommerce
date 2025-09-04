@@ -73,7 +73,7 @@ export default async function HomePage() {
               <h2 className="text-3xl font-extrabold text-gray-900">Explore Our Categories</h2>
               <p className="mt-2 text-gray-600">Find exactly what you are looking for.</p>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
               {featuredCategories.map((category) => (
                 <CategoryCard key={category.uuid} category={category} />
               ))}

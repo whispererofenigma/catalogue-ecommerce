@@ -27,7 +27,7 @@ export default async function FeaturedProducts() {
           <p className="mt-2 text-gray-600">Check out our latest and greatest creations.</p>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {products?.map(product => {
             // A little data transformation to fit the ProductCard props
             const productForCard = {
