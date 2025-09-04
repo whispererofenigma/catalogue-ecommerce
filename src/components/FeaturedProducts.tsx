@@ -13,7 +13,7 @@ export default async function FeaturedProducts() {
     .select('name, slug, price, image_key')
     .order('priority', { ascending: true, nullsFirst: false }) // or nullsLast: true
     .order('last_updated', { ascending: false }) // Secondary sort for non-prioritized items
-    .limit(4);
+    .limit(6);
 
   return (
     <Suspense fallback={<div className="border rounded-2xl p-4 shadow-sm animate-pulse">
@@ -27,7 +27,7 @@ export default async function FeaturedProducts() {
           <p className="mt-2 text-gray-600">Check out our latest and greatest creations.</p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {products?.map(product => {
             // A little data transformation to fit the ProductCard props
             const productForCard = {
