@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer"; // Import your Navbar
+import FloatingWhatsAppButton from "@/components/FloatingWhatsAppButton";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,6 +32,7 @@ export default function RootLayout({
         {/* The 'children' prop renders the content of your active page (e.g., ProductPage) */}
         {children}
         <Footer />
+        <FloatingWhatsAppButton />
       </body>
     </html>
   );

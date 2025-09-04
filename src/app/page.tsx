@@ -3,8 +3,10 @@ import Hero from "@/components/Hero";
 import FeaturedProducts from "@/components/FeaturedProducts";
 import { createClient } from "@/utils/supabase/server";
 import CategoryCard from "@/components/CategoryCard";
+
 import Link from "next/link";
 import { Suspense } from "react";
+import OwnHouseProductsSection from "@/components/OwnHouseProductsSection";
 // Helper function to fetch a few categories for the homepage
 async function getFeaturedCategories() {
   const supabase = await createClient();
@@ -60,6 +62,8 @@ export default async function HomePage() {
     <main className="bg-gray-200">
       <Hero />
       <FeaturedProducts />
+      <OwnHouseProductsSection />
+      
 
       {/* Explore Categories Section */}
       <Suspense>

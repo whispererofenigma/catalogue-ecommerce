@@ -131,7 +131,7 @@ export default function Navbar() {
             <Link
               key={link.name}
               href={link.href}
-              className="text-gray-700 hover:bg-blue-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+              className="text-gray-700 border-b-2 border-blue-300 shadow-sm hover:bg-blue-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
               onClick={closeAllMenus} // <-- Close menu on link click
             >
               {link.name}
