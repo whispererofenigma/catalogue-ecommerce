@@ -17,7 +17,7 @@
     "@supabase/supabase-js": "^2.53.0",
     "crypto": "^1.0.1",
     "lucide-react": "^0.542.0",
-    "next": "15.4.5",
+    "next": "16.0.10",
     "pixi.js": "^8.12.0",
     "react": "19.1.0",
     "react-cropper": "^2.3.3",
@@ -27,13 +27,19 @@
     "use-debounce": "^10.0.5"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
+    "@eslint/eslintrc": "^3.3.3",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@typescript-eslint/eslint-plugin": "^8.50.0",
+    "@typescript-eslint/parser": "^8.50.0",
     "eslint": "^9",
-    "eslint-config-next": "15.4.5",
+    "eslint-config-next": "16.0.10",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
